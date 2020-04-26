@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>F.O.S.S</title>
+    <link>https://binghuacheng.github.io/</link>
+    <description>Recent content on F.O.S.S</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://binghuacheng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Test</title>
+      <link>https://binghuacheng.github.io/posts/test/</link>
+      <pubDate>Sat, 25 Apr 2020 00:39:29 +0000</pubDate>
+      
+      <guid>https://binghuacheng.github.io/posts/test/</guid>
+      <description>#Just for test It&amp;rsquo;s amazing that hugo is better too much than hexo(often occur error), and it has a better speed and compatibility. All in all, compilation language is better than interpretation language.</description>
+    </item>
+    
+    <item>
+      <title>F.O.S.S</title>
+      <link>https://binghuacheng.github.io/about-hugo/</link>
+      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://binghuacheng.github.io/about-hugo/</guid>
+      <description>Life is short and boring. Although I attempt to get rid of this feeling, but actually I have to accept it and try to enjoy this all.
+##Contact me
+  Gitee: binghuacheng
+  Github: binghuacheng
+  </description>
+    </item>
+    
+  </channel>
+</rss>
