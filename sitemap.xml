@@ -1,9 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://binghuacheng.github.io/posts/</loc>
+    <lastmod>2020-04-30T17:47:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://binghuacheng.github.io/tags/</loc>
+    <lastmod>2020-04-30T17:47:16+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://binghuacheng.github.io/posts/%E5%BC%80%E8%AE%BE%E6%9C%AC%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%9B%AE%E7%9A%84/</loc>
+    <lastmod>2020-04-30T17:47:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://binghuacheng.github.io/tags/%E7%9B%AE%E7%9A%84/</loc>
     <lastmod>2020-04-30T17:47:16+00:00</lastmod>
   </url>
   
@@ -13,36 +28,16 @@
   </url>
   
   <url>
-    <loc>https://binghuacheng.github.io/categories/</loc>
-    <priority>0</priority>
+    <loc>https://binghuacheng.github.io/</loc>
+    <lastmod>2020-04-30T17:28:38+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://binghuacheng.github.io/posts/</loc>
-    <lastmod>2020-04-30T17:47:16+00:00</lastmod>
-    <priority>0</priority>
+    <loc>https://binghuacheng.github.io/categories/</loc>
   </url>
   
   <url>
     <loc>https://binghuacheng.github.io/series/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://binghuacheng.github.io/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://binghuacheng.github.io/</loc>
-    <lastmod>2020-04-30T17:47:16+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://binghuacheng.github.io/tags/%E7%9B%AE%E7%9A%84/</loc>
-    <lastmod>2020-04-30T17:47:16+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>
