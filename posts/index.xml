@@ -6,10 +6,314 @@
     <description>To be a sailor (Posts)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-ch</language>
-    <lastBuildDate>Sat, 02 May 2020 14:04:05 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 May 2020 04:53:49 +0000</lastBuildDate>
     
     <atom:link href="https://binghuacheng.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Adventures in Functions</title>
+      <link>https://binghuacheng.github.io/posts/adventures-in-functions/</link>
+      <pubDate>Tue, 12 May 2020 04:53:49 +0000</pubDate>
+      
+      <guid>https://binghuacheng.github.io/posts/adventures-in-functions/</guid>
+      <description>&lt;h2 id=&#34;c-inline-functions&#34;&gt;C++ Inline Functions&lt;/h2&gt;
+&lt;p&gt;In an inline function，the compiled code is &amp;ldquo;in line&amp;rdquo; with the the other code in the program. With inline code，the program doesn&amp;rsquo;t have to jump to another location to execute the code and jump back. Inline function thus run a little faster than regular function， but they come with a memory penalty（n.惩罚）. If a program calls an inline function at ten separate locations，then the program winds up with ten copies of the function inserted into the code.&lt;/p&gt;
+&lt;p&gt;To use the Inline function，you must take at least one of two actions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Preface the functio &lt;code&gt;declaration&lt;/code&gt; with the keyword &lt;code&gt;inline&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Preface the function &lt;code&gt;definition&lt;/code&gt; with the keyword &lt;code&gt;inline&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A common practice is to omit the prototype and to place the entire definition where the prototype would normally go.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If the function is too larger or calls itself， don&amp;rsquo;t use inline function.&lt;/p&gt;
+&lt;h2 id=&#34;reference-variables&#34;&gt;Reference Variables&lt;/h2&gt;
+&lt;p&gt;A &lt;em&gt;reference&lt;/em&gt; is a name that acts as an alias，or an alternative name，for a &lt;strong&gt;previously defined&lt;/strong&gt; variable.&lt;/p&gt;
+&lt;p&gt;The main use for a reference variable is as a formal argument to a function. If you use a reference as a argument，the function works with the original data instead of with a copy.&lt;/p&gt;
+&lt;h3 id=&#34;creating-a-reference-variable&#34;&gt;Creating a Reference Variable&lt;/h3&gt;
+&lt;p&gt;C and C++ use the &amp;amp; symbol to indicate the address of a variable，however C++ assigns an additional meaning to the &amp;amp; symbol and presses it into service for declaring references. For example，to make &lt;em&gt;rodents&lt;/em&gt; an alternative name for variable &lt;em&gt;rats&lt;/em&gt;，you could do the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; rats;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; rodents &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; rats &lt;span style=&#34;color:#75715e&#34;&gt;// makes rodents an alias for rats 
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Just as char * in a declaration means pointer-to-char，int &amp;amp; means reference-to-int. The reference declaration allows you to use &lt;em&gt;rats&lt;/em&gt; and &lt;em&gt;rodents&lt;/em&gt; interchangeably; both refer to the same value and the same momory location.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; You should initialize a reference variable when you declare it.&lt;/p&gt;
+&lt;p&gt;A reference is rather like a &lt;strong&gt;const&lt;/strong&gt; pointer; you have to initialize it when you create it，and when a reference pledges(v. 保证，许诺）its allegiance to a particular variable，it stick to its pledge. That is，
+int &amp;amp; rodents=rats;
+is，in essence，a disguised notation for something like this:
+int * const pr=&amp;amp;rats;
+Here，the reference &lt;em&gt;rodents&lt;/em&gt; play the same role as the express *pr.&lt;/p&gt;
+&lt;p&gt;Suppose you tried the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; rats&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;101&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pt &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;rats;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;rodents &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;pt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; bunnies &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;;
+pt &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;bunnies;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Initializing rodents to *pt makes rodents refer to rats. Subsequently altering pt to point to bunnies does not alter the fact that rodents refers to rats.&lt;/p&gt;
+&lt;h3 id=&#34;references-as-function-parameters&#34;&gt;References as Function Parameters&lt;/h3&gt;
+&lt;p&gt;Most often，references are used as function parameters, making a variable in a function an alias for a variable in the calling program. This method of passing arguments is called &lt;em&gt;&lt;strong&gt;passing by reference&lt;/strong&gt;&lt;/em&gt;. Passing by reference allows a called function to access variable in the calling function. For instance:
+swapr.cpp&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;swapr&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; b);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; wallet1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;300&lt;/span&gt;;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; wallet2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;350&lt;/span&gt;;
+	cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wallet1 = $&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; wallet1;
+	cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wallet2 = $&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; wallet2; 
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+	cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Using references to swap contents:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
+	swapr(wallet1&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，&lt;/span&gt;wallet2);
+	cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wallet1 = $&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; wallet1;
+	cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wallet2 = $&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; wallet2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;swapr&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; b)
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; temp;
+
+	temp&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;a;
+	a&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;b;
+	b&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;temp;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; A function call initializes its parameters with argument values from the function call. So reference function arguments are initialized to the argument passed by the function call.&lt;/p&gt;
+&lt;h3 id=&#34;reference-properties-and-oddities&#34;&gt;Reference Properties and Oddities&lt;/h3&gt;
+&lt;p&gt;If your intent is that a function use the information passed to it without modifying the information, and if you&amp;rsquo;re using a reference, you should use aa constant reference. Here, for example, you should use &lt;em&gt;const&lt;/em&gt; in the function prototype and function header:
+double cube(const double &amp;amp;r)&lt;/p&gt;
+&lt;h4 id=&#34;temporary-variables-references-arguments-and-const&#34;&gt;Temporary Variables, References Arguments, and &lt;em&gt;const&lt;/em&gt;&lt;/h4&gt;
+&lt;p&gt;C++ can generate a tempolary variable if the actual argument doesn&amp;rsquo;t match a reference argument. Currently, C++ permits this only if the argument is a const reference.&lt;/p&gt;
+&lt;p&gt;Provided that the reference parameter is a &lt;em&gt;const&lt;/em&gt;, the compiler generates a temporary variable in two kinds of situations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When the actual argument is the correct type but isn&amp;rsquo;t an lvalue&lt;/li&gt;
+&lt;li&gt;When the actual argument is of the wrong type, but it&amp;rsquo;s of a type that can be converted to the correct type.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Both a regular variable abd a const variable would be considered lvalues because both can accessed by address. But the regular variable can be further characterized as being a &lt;em&gt;modifiable lvalue&lt;/em&gt; and the const variable as a &lt;em&gt;non-modifiable lvalue&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;If the intent of a function with argument is to modify variables passed as arggument, situation that create temporary variables thwart that purpose. The solution is to prohibit creating temporary variables in these situation.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;If a function call argument isn&amp;rsquo;t an &lt;em&gt;lvalue&lt;/em&gt; or doesn&amp;rsquo;t match the type of the corresponding &lt;em&gt;const&lt;/em&gt; reference parameter, C++ creates an anonymous variable of the correct type, assigns the value of the function call argument to the annoymous variable, and has the parameter refer to that variable.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Use const when you can&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;There are three strong reason to declare reference arguments as references to the constant data:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Using &lt;strong&gt;const&lt;/strong&gt; protects you against programming errors that  inadvertently alter data.&lt;/li&gt;
+&lt;li&gt;Using &lt;strong&gt;const&lt;/strong&gt; allows a function to process both &lt;strong&gt;const&lt;/strong&gt; and &lt;strong&gt;non-const&lt;/strong&gt; actual argguments, whereas a function that omits &lt;strong&gt;const&lt;/strong&gt; in the prototype only can accept non-const data.&lt;/li&gt;
+&lt;li&gt;Using a const reference allows the function to generate and use a temporary variable appropriately.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;C++11 introduces a second kind of reference, called an &lt;strong&gt;rvalue reference&lt;/strong&gt;, that can reference to an rvalue.&lt;/p&gt;
+&lt;h3 id=&#34;using-references-with-a-structure&#34;&gt;Using References with a Structure&lt;/h3&gt;
+&lt;p&gt;References work wonderfully with structures and classes, C++&#39;s user-defined types. Indeed, references were introduced primarily for use with these types, not for use with the basic built-in types.&lt;/p&gt;
+&lt;h4 id=&#34;why-return-a--reference&#34;&gt;Why Return a  Reference?&lt;/h4&gt;
+&lt;p&gt;Now consider this statement:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; dup=accumulate(team, five);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;a-function-that-returns-a-reference-is-actually-an-alias-for-the-referred-to-variable&#34;&gt;If accumulate() returned a structure instead of a reference to a structure, this could involve copying the entire structure to a temporary location  and then copying that copy to dup. But with a reference return value, team is copied directly to dup, a  more efficient approach.
+&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt;
+&lt;code&gt;A function that returns a reference is actually an alias for the referred-to variable.&lt;/code&gt;&lt;/h2&gt;
+&lt;h4 id=&#34;being-careful-about-what-a-return-reference-refers-to&#34;&gt;Being Careful About What a Return Reference Refers To&lt;/h4&gt;
+&lt;p&gt;The single most important point to remember when returning a reference is to  avoid returning a reference to a memory location that ceases to exist when the function terminates. What you want to avoide is code along these lines:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; free_throws &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; clone2(free_throws &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; ft)
+{
+	free_throws newguy;
+	newguy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;ft;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; newguy;
+}
+This has the unfortunate effect of returning a reference to a temporary variable(newguy) that passes from existence as soon as the function terminates. Similarly, you should avoid returning pointers to such temporary variables.
+&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; The simple way to avoid this problem is to &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; a reference that was passed as an argument to the function. A reference parameter will refer to data used by the calling function; hence, the returned reference will refer to the same data.
+&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; A second method is to use new to create new storage.
+&lt;span style=&#34;color:#f92672&#34;&gt;---&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#### Why Use const with a Reference Return?
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Suppose you want to use a reference &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; value but don&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;t want to permit such as assigning a value to accumulate(). Just make the &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; type a &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; reference:
+&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;```&lt;/span&gt;c&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; free_throws &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;
+	accumulate(free_throws &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; target, &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; free_throws &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; source);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The return type now is const, hence a nonmodifiable lvalue. Therefore, the assignment no longer is allowed:
+accumulate(dup, five)=four; // not allowed for const reference return&lt;/p&gt;
+&lt;h3 id=&#34;using-references-with-a-class-object&#34;&gt;Using References with a class Object&lt;/h3&gt;
+&lt;p&gt;The usual C++ practice for passing class objects to a function is to use references. For instance, you would use reference parrameters for functions taking objects of the &lt;em&gt;&lt;strong&gt;string, ostream, istream, ofstream&lt;/strong&gt;&lt;/em&gt;, and &lt;em&gt;&lt;strong&gt;ifstream&lt;/strong&gt;&lt;/em&gt; classes as arguments.&lt;/p&gt;
+&lt;hr&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;string &lt;span style=&#34;color:#a6e22e&#34;&gt;version1&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; string &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; s1, &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; string &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; s2)
+{
+	string temp;
+	temp&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;s2&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;s1&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;s2;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; temp;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;the-temp-object-is-a-new-object-local-to-the-version1-function-and-it-ceases-to-exist-when-the-function-terminates-thus-returning-temp-as-a-reference-wont-work-so-the-function-type-is-string&#34;&gt;The &lt;em&gt;&lt;strong&gt;temp&lt;/strong&gt;&lt;/em&gt; object is a new object, local to the version1() function, and it ceases to exist when the function terminates. Thus, returning temp as a reference won&amp;rsquo;t work, so the function type is string.&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Passing a C-style String Argument to a string Object Reference Parameter:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;You may have noticed a rather interesting fact about the version1() function: Both formal parameters(s1 and s2) are type &lt;em&gt;&lt;strong&gt;const string &amp;amp;&lt;/strong&gt;&lt;/em&gt;, but the actual arguments(input and &amp;ldquo;***&amp;quot;) are type string and const char *, respectively. Because input is type string, there is no problem having s1 refer to it. But how is it that the program accepts passing a pointer-to-char argument to a string reference?
+Two things are going on here. One is that the string class defines a char *-to-string conversion, which makes it possible to initialize a string object to a C-style string. The second is a property of const reference formal parameters that is discussed earlier in this charpter. Suppose the actual argument type doesn&amp;rsquo;t match the reference parameter type but can be converted to the reference type. Then the program creates a temporay variable of the correct type, initialize it to the converted value, and passes a reference to the temporary variable. Earlier this character you saw, for instance, that a const douuble &amp;amp; parameter can handle an int arggument in this fashion. Similarly, a const string &amp;amp; pparameter can handle a char * or const char * argument in this fashion.
+The convenient outcome of this is that if the formal parameter is type const string &amp;amp;, the actual argument used in the function call can be a string object or a C-style string, such as a quoted string literal, a null-terminated array of char, or a pointer variable that points to a char.&lt;/p&gt;
+&lt;h3 id=&#34;another-object-lesson-objects-inheritance-and-references&#34;&gt;Another Object Lesson: Objects, Inheritance, and References&lt;/h3&gt;
+&lt;p&gt;A derived class inherits the base class methods, which means that an &lt;em&gt;&lt;strong&gt;ofstream&lt;/strong&gt;&lt;/em&gt;  object can use base class features such as the precision() and setf() formatting methods.
+Another aspect of inheritance is that a base reference can refer to a derived class object without requiring a type cast.&lt;/p&gt;
+&lt;h3 id=&#34;when-to-use-reference-arguments&#34;&gt;When to Use Reference Arguments&lt;/h3&gt;
+&lt;p&gt;There are two main reasons for using reference arguments:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;To allow you to alter a data object in the calling function&lt;/li&gt;
+&lt;li&gt;To speed up a program by passing a reference instead of an entire data object.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are some guidelines about when you should use a reference, a pointer and pass by value:
+1.A function uses passed data without modifying it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If the data object is small, such as a built-in data type or a small structure, pass it by value.&lt;/li&gt;
+&lt;li&gt;If the data object is a good-sized structure, use a const pointer or a const reference to increase program effiency. You save the time and space needed to copy a structure or a class design. Make the pointer or reference const.&lt;/li&gt;
+&lt;li&gt;If the data object is an array, use a pointer because that&amp;rsquo;s your only choice. Make the pointer a pointer to const.&lt;/li&gt;
+&lt;li&gt;If the data object is a class object, use a const reference. The semantics of class design often require using a reference, which is the main reason C++ added this feature. Thus, the standard way to pass class object arguments is by reference.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2.A function modifies data in the calling function:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If the data object is built-in data type, use a pointer. If you spot code like fixit(&amp;amp;x), where x is an int, it&amp;rsquo;s very pretty clear that this function intends to modify x.&lt;/li&gt;
+&lt;li&gt;If the datya object is an array, use your only choice: a poiter.&lt;/li&gt;
+&lt;li&gt;If the data object is a structure, use a reference or a pointer.&lt;/li&gt;
+&lt;li&gt;If the data object is a class object, use a reference.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;default-arguments&#34;&gt;Default Arguments&lt;/h2&gt;
+&lt;p&gt;A &lt;em&gt;default argument&lt;/em&gt; is a value that&amp;rsquo;s used automatically if you omit the corresponding actual argument from a function call.
+When you use a function with an argument list, you must add defaults from right to left. That is, you can&amp;rsquo;t provide a default value for a particular argument unless you also provide defaults for the arguments to its right:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;harpo&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; m, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// valid
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;chico&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; m&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j);	&lt;span style=&#34;color:#75715e&#34;&gt;// invalid
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;groucho&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; m&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// valid
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that only the prototype indicates the default. The function definition is the same as it would be without default arguments.&lt;/p&gt;
+&lt;h2 id=&#34;fucntion-overloading&#34;&gt;Fucntion Overloading&lt;/h2&gt;
+&lt;p&gt;Function polymorphism is a neat C++ addition to C&amp;rsquo;s capabilities. Whereas default arguments lets you call the same function by using varing numbers of arguments, function polymorphism, also called function overloading, lets you use multiple function sharing the same name. The word polymorphism means having many forms, so function polymorphism lets a function have many forms. Similarly, the expression function overloading means you can attach more than one function to the same name, thus overloading the name. Both expressions boils down to the same thing, but we&amp;rsquo;ll  usually use the expression function overloading. You can use function overloading to design a family of functions that do essentially the same thing but using different argument lists.&lt;/p&gt;
+&lt;p&gt;The key to function overloading is function&amp;rsquo;s argument list, also called the &lt;strong&gt;function signature.&lt;/strong&gt; If two function use the same number and types of arguments in the same order, they have the same signature; the variable names don&amp;rsquo;t matter. C++ enables you to define two functions by the same name, providede that the functions have different signatures. The signature can differ in the &lt;strong&gt;number&lt;/strong&gt; of arguments or in the &lt;strong&gt;type&lt;/strong&gt; of arguments, or both.&lt;/p&gt;
+&lt;p&gt;When yyou use overloaded functions, you need to be sure you use the proper argument types in the function call.&lt;/p&gt;
+&lt;p&gt;Note some signatures that appear to be different from each other nonetheless can&amp;rsquo;t coexist, for example, consider these two prototypes:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cube&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; x);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cube&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; x);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When the compiler checks function signatures, it considers a reference to a type and the type itself to be the same signature.&lt;/p&gt;
+&lt;p&gt;The function-matching process does discriminate between const and non-const variable. Consider the following prototypes:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dabble&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; bits);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;drivel&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; bits);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The dabble() function only matches a call with a non-const argument, but the drivel() function matches calls with either const or non-const arguments. The reason for this difference in behavior between drivel() and dabble() is that it&amp;rsquo;s valid to assign a non-const value to a const variable, but not vice versa.&lt;/p&gt;
+&lt;p&gt;Keep in mind that the signature, not the function type, enables function overloading. For example, the following two declarations are incompatible:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;gronk&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, &lt;span style=&#34;color:#66d9ef&#34;&gt;float&lt;/span&gt; m);	&lt;span style=&#34;color:#75715e&#34;&gt;//same signatures,
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;gronk&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, &lt;span style=&#34;color:#66d9ef&#34;&gt;float&lt;/span&gt; m);	&lt;span style=&#34;color:#75715e&#34;&gt;// hence not allowed
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;Overloading Reference Parameters&lt;/strong&gt;&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;Class designs and the STL often use reference parameters, and it&amp;rsquo;s useful to know how overloading works with different reference types. Consider the following three prototypes:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sink&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; r1);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches modifiable lvalue
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sank&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; r2);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches modifiable or const lvalue, rvalue
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sunk&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; r3);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches rvalue
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The lvalue reference parameter r1 matches a modifiable lvalue argument, such as a double variable. The const lvalue reference parameter r2 mattches a modifiable lvalue argument, a const lvalue argument, and an rvalue argument, such as the sum of two double values. Finally, the rvalue reference r3 matches an rvalue. Note how r2 can match the same sort of arguments that r1 and r3 match. This raises the question of what happens when you overload a function on these three types of parameters. &lt;strong&gt;The answer is that the more exact match is made:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;staff&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; rs);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches modifiable lvalue
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;staff&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; rcs);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches rvalue, const lvalue
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;stove&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; r1);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches modifiable lvalue
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;stove&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; r2);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches const lvalue
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;stove&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; r3);	&lt;span style=&#34;color:#75715e&#34;&gt;//matches rvalue
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;function-template&#34;&gt;Function Template&lt;/h2&gt;
+&lt;p&gt;A function template is a generic function description; that is, it defines a function in terms of a generic type for which a specific type, such as int or double, can be substituded. By passing a type as a parameter to a template, you cause the compiler to genarate a function for that particular type. Because templates let you program in terms of a generic type instead of a specific type, the process is sometimes termed generic programming. Because types are represented by parameters, the template feature is sometimes referred to as &lt;strong&gt;parameterized types&lt;/strong&gt;.
+Function templates enable you to define a function in terms of some arbitrary type. For example, you can set up a swapping template like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; AnyType&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(AnyType &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a, Anytype &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;b)
+{
+	Anytype temp;
+	temp&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;a;
+	a&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;b;
+	b&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;temp;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The keywords template and typename are obligatory, except that you can use the keyword class instead of typename. Also you must use the angle brackets. The template does not create any function. Instead, it provides the compiler with direction about how to define a function.
+Before the C++98 Standard added the keyword typename to the language, C++ used the keyword class in this pariticular context. That is, you can write the template definition this way:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AnyType&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(AnyType &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a, AnyType &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;b)
+{
+	AnyType temp;
+	temp&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;a;
+	a&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;b;
+	b&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;temp;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The C++ Standard treats the two keywords identically when they are used in this context.
+&lt;em&gt;&lt;strong&gt;Tip:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;You should use templates if you need functions that apply the same algorithm to a variety of types. If you aren&amp;rsquo;t concerned with backward compatibility and can put up with the effort of typing a longer word, you can use the keyword typename rather than class when you declare type parameter.&lt;/p&gt;
+&lt;h3 id=&#34;overloaded-templates&#34;&gt;Overloaded Templates&lt;/h3&gt;
+&lt;p&gt;You use template when you need functions that apply the same algorithm to a variety of types.However, that not all types would use the same algorithm. To handle this possibility, you can overload template definitions. For instance:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//twotemps.cpp -- using overloaded template functions
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// original template
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a, T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;b);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// new template
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(T &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a, T &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;b, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()
+{
+	...
+	...
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a, T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;b)
+{
+	T temp;
+	temp&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;a;
+	a&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;b;
+	b&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;temp;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(T a[], T b[], &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n)
+{
+	T temp;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;n; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;)
+	{
+		temp&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;a[i];
+		a[i]&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;b[i];
+		b[i]&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;temp;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;explicit-specializations&#34;&gt;Explicit Specializations&lt;/h4&gt;
+&lt;p&gt;If the compiler finds a specified difinition that exactly matches a function call, it uses that definition without looking for templates.&lt;/p&gt;
+&lt;h5 id=&#34;third-generation-specializationisoansi-c-standard&#34;&gt;Third-Generation Specialization(ISO/ANSI C++ Standard)&lt;/h5&gt;
+&lt;p&gt;After some experimentation with other approach, the C++98 Standard setted on this approach:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For a given function name, you can have a non template function, a template function, and an explicit specification template function, along with overloaded versions of all of these.&lt;/li&gt;
+&lt;li&gt;The prototype and definition for an explicit specialication shoud be proceded by template &amp;lt;&amp;gt; and should mention the specialized type by name.&lt;/li&gt;
+&lt;li&gt;A specialization overrides the regular template, and a non template function overrides both.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here&amp;rsquo;s how prototypes for swapping type job structures would look for these forms:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// non template function prototype
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Swap&lt;/span&gt;(job &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;, job &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// template prototype
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;, T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// explicit specialization for the job type
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;job&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(job &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;, job &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note: Non template version &amp;gt; Explicit specialization version &amp;gt; template version&lt;/p&gt;
+&lt;p&gt;In addition, the &lt;!-- raw HTML omitted --&gt; in Swap(job) is optional because the function argument types indicates that this is a secification for job. Thus, the prototype can be written this way:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;template &amp;lt;&amp;gt; void Swap(job &amp;amp;, job &amp;amp;);
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;instantiations-and-specializations&#34;&gt;Instantiations and specializations&lt;/h4&gt;
+&lt;p&gt;Keep in mind that including a function template in you code does not in itself generate a function definition. It&amp;rsquo;s merely a plan for generating a function definition for a particular type, the result is termed an instantiation of the template. The template is not a function definition, but the specific instantiation using int is a function definition. This type of instantiation is termed implicit instantiation because the compiler deduces the necessity for making the definition by noting that the program uses a Swap() function with int paramaters. However, now C++ allows for explicit instantiation. That means you can instruct the compiler to create a particular instantiation &amp;ndash; for example, Swap&lt;!-- raw HTML omitted --&gt;() &amp;ndash; directly. The syntax is to declare the particular variety you want, using the &amp;lt;&amp;gt; notation to indicate the type and prefixing the declaration with the keyword template:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;);  &lt;span style=&#34;color:#75715e&#34;&gt;//explicit instantiation
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;pre&gt;&lt;code&gt;template &amp;lt;&amp;gt; void Swap&amp;lt;int&amp;gt;(int &amp;amp;, int &amp;amp;);	//explicit specialization
+template &amp;lt;&amp;gt; void Swap(int &amp;amp;, int &amp;amp;);	//explicit specialization
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The explicit specialization declaration has &amp;lt;&amp;gt; after the keyword termplate, whereas the explicit instantiation omits the &amp;lt;&amp;gt;.&lt;/p&gt;
+&lt;p&gt;**Caution:**It is an error to try to use both an explicit instantiation and an explicit specialization for the same type(s) in the same file, or, more generally, the same translation unit.&lt;/p&gt;
+&lt;p&gt;Implicit instantiations, explicit instantiations, and explicit specializations collectively are termed &lt;em&gt;specializations&lt;/em&gt;. What they all have in common is that they represent a function definition that uses specific types rather than one that is a generic description.
+The following fragment summaries the main concept:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;...
+&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap(T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;, T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// template prototype
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;job&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(job &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;, job &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// explicit specialization for job
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;)
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Swap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);  &lt;span style=&#34;color:#75715e&#34;&gt;//explicit instantiation for char
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;short&lt;/span&gt; a, b;
+	...
+	Swap(a,b);	&lt;span style=&#34;color:#75715e&#34;&gt;//implicit template instantiation for short
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	job n, m;
+	...
+	Swap(n, m);	&lt;span style=&#34;color:#75715e&#34;&gt;//use explicit specialization for job
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; g, h;
+	...
+	Swap(g, h);	&lt;span style=&#34;color:#75715e&#34;&gt;//use explicit template instantiation for char
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	...
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;### Which Function Version Does the Compiler Pick?(overload resolution)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;Phase &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt; Assemble a list of candidate function. These are functions and &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; function that have the same names as the called the called functions.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     
     <item>
       <title>春之思</title>
