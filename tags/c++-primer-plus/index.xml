@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>To be a sailor</title>
-    <link>https://binghuacheng.github.io/</link>
-    <description>To be a sailor</description>
+    <title>C&#43;&#43;-Primer-Plus on To be a sailor</title>
+    <link>https://binghuacheng.github.io/tags/c&#43;&#43;-primer-plus/</link>
+    <description>To be a sailor (C&#43;&#43;-Primer-Plus)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-ch</language>
-    <lastBuildDate>Thu, 30 Apr 2020 17:28:38 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 May 2020 04:53:49 +0000</lastBuildDate>
     
-    <atom:link href="https://binghuacheng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://binghuacheng.github.io/tags/c++-primer-plus/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -313,50 +313,6 @@ The following fragment summaries the main concept:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Phase 1&lt;/strong&gt; &amp;ndash; Assemble a list of candidate function. These are functions and template function that have the same names as the called the called functions.&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>春之思</title>
-      <link>https://binghuacheng.github.io/posts/%E6%98%A5%E4%B9%8B%E6%80%9D/</link>
-      <pubDate>Sat, 02 May 2020 14:04:05 +0000</pubDate>
-      
-      <guid>https://binghuacheng.github.io/posts/%E6%98%A5%E4%B9%8B%E6%80%9D/</guid>
-      <description>&lt;p&gt;在新冠疫情影响下，已经在家混了几个月了，除了无聊感再无其他想法，感觉自己或许今生就只能如此了，只能在这种无聊感中虚度未来的年华了。亦曾试图做出改变，但往往坚持不了几天。
-在高中时便是一个极其叛逆的人，在那些所谓的改变命运的时刻，总是习惯性地作死，于是便有了高三最后几个月的退学。那几个月的记忆与现在是如此相似 &amp;ndash; 无聊，烦躁，唯一不同之处或许是现在没有那么强烈的被世界遗弃的感觉。
-在此刻，五月，与那时时间几近重叠，再加上那让人恼火的花粉过敏，让人又很是郁闷。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>开设本博客的目的</title>
-      <link>https://binghuacheng.github.io/posts/%E5%BC%80%E8%AE%BE%E6%9C%AC%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%9B%AE%E7%9A%84/</link>
-      <pubDate>Thu, 30 Apr 2020 17:47:16 +0000</pubDate>
-      
-      <guid>https://binghuacheng.github.io/posts/%E5%BC%80%E8%AE%BE%E6%9C%AC%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%9B%AE%E7%9A%84/</guid>
-      <description>&lt;p&gt;一直以来都有着很差的阅读习惯，看过的书都是随随便便的翻一遍，没有做笔记与书评的习惯，故虽看过不少书，当大都是看后即忘，故想通过开设此博客的方式，将以前看过的书皆再看一遍，整理其脉络，并强迫自己将以后将看的书皆通过此方式加强记忆。由于个人水平有限，可能会有诸多错误。
-Please forgive that.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://binghuacheng.github.io/about/</link>
-      <pubDate>Thu, 30 Apr 2020 17:28:38 +0000</pubDate>
-      
-      <guid>https://binghuacheng.github.io/about/</guid>
-      <description>&lt;p&gt;Who am I, where am I, where I am go , all these  things are worthy of thinking. Life maybe a long long journey. We look forward and back, looking the meaning of living&lt;/p&gt;
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;An undergraduated trade college student&lt;/li&gt;
-&lt;li&gt;major in marine management&lt;/li&gt;
-&lt;li&gt;shy and self-closing&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;interest&#34;&gt;Interest:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;music, Japanese manga, poems&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;contact-with-me&#34;&gt;Contact with me&lt;/h2&gt;
 </description>
     </item>
     

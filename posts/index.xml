@@ -309,10 +309,11 @@ The following fragment summaries the main concept:&lt;/p&gt;
 	Swap(g, h);	&lt;span style=&#34;color:#75715e&#34;&gt;//use explicit template instantiation for char
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	...
 }
-
-&lt;span style=&#34;color:#75715e&#34;&gt;### Which Function Version Does the Compiler Pick?(overload resolution)
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;Phase &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt; Assemble a list of candidate function. These are functions and &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; function that have the same names as the called the called functions.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;which-function-version-does-the-compiler-pickoverload-resolution&#34;&gt;Which Function Version Does the Compiler Pick?(overload resolution)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Phase 1&lt;/strong&gt; &amp;ndash; Assemble a list of candidate function. These are functions and template function that have the same names as the called the called functions.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
