@@ -6,10 +6,79 @@
     <description>To be a sailor (C&#43;&#43;-Primer-Plus)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-ch</language>
-    <lastBuildDate>Tue, 12 May 2020 04:53:49 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 16 May 2020 05:50:08 +0000</lastBuildDate>
     
     <atom:link href="https://binghuacheng.github.io/tags/c++-primer-plus/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Memory Modules and Namespaces</title>
+      <link>https://binghuacheng.github.io/posts/memory-modules-and-namespaces/</link>
+      <pubDate>Sat, 16 May 2020 05:50:08 +0000</pubDate>
+      
+      <guid>https://binghuacheng.github.io/posts/memory-modules-and-namespaces/</guid>
+      <description>&lt;h2 id=&#34;main-content&#34;&gt;Main Content&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Separate compilation of programs&lt;/li&gt;
+&lt;li&gt;Storage duration, scope, and linkage&lt;/li&gt;
+&lt;li&gt;Placement &lt;code&gt;new&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Namespaces&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;separate-compilation&#34;&gt;Separate Compilation&lt;/h2&gt;
+&lt;p&gt;In general, We divide the program into three parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A header file that contains the structure declarations and prototypes for functions that use those structures&lt;/li&gt;
+&lt;li&gt;A source code file that contains the code for the structure-related functions&lt;/li&gt;
+&lt;li&gt;A source code file that contains the code that calls the structure-related functions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here are some things commonly found in header files:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Function prototypes&lt;/li&gt;
+&lt;li&gt;Symbolic constants defined using &lt;code&gt;#define&lt;/code&gt; or &lt;code&gt;const&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Structure declarations&lt;/li&gt;
+&lt;li&gt;Class declarations&lt;/li&gt;
+&lt;li&gt;Template declarations&lt;/li&gt;
+&lt;li&gt;Inline function&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;storage-duration-scope-and-linkage&#34;&gt;Storage Duration, Scope, and Linkage&lt;/h2&gt;
+&lt;p&gt;C++ uses four separate schemes for sorting data, and the scheme differ in how long they preserve data in memory:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Automatic storage duration&lt;/li&gt;
+&lt;li&gt;Static storage duration&lt;/li&gt;
+&lt;li&gt;Thread storage duration(C++11)&lt;/li&gt;
+&lt;li&gt;Dynamic storage duration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;specifiers-and-qualifiers&#34;&gt;Specifiers and Qualifiers&lt;/h3&gt;
+&lt;p&gt;Certain C++ keywords, called &lt;code&gt;storage class specifier&lt;/code&gt; and &lt;code&gt;cv-qualifiers&lt;/code&gt;, provide@s additional information about storage.&lt;/p&gt;
+&lt;h4 id=&#34;cv-qualifiers&#34;&gt;Cv-Qualifiers&lt;/h4&gt;
+&lt;p&gt;Here are the cv-qualifiers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;const&lt;/li&gt;
+&lt;li&gt;volatile&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;code&gt;volatile&lt;/code&gt; keyword indicates that the value in a memory location can be altered even though nothing in the program code modifies the contents. The intent of this keyword is to improve the optimization abilities of compiler. For example, suppose the compiler notices that a program uses the value of a particular variable twice within a few statementss. Rather than have the program look up the value twice, the compiler might cache the value in a register. This optimization assumes that the value of the variable doesn&amp;rsquo;t change between the two uses. If you don&amp;rsquo;t define a variable as &lt;code&gt;volatile&lt;/code&gt;, then the compiler can feel free to make this optimization. If you do declare a variable as &lt;code&gt;volatile&lt;/code&gt;, you&amp;rsquo;re telling the compiler not to make that sort of optimization.&lt;/p&gt;
+&lt;h4 id=&#34;mutable&#34;&gt;mutable&lt;/h4&gt;
+&lt;p&gt;You can use it to indicate that a particular member of a structure(or class) can be altered even if a particular structure(or class) variable is a &lt;code&gt;const&lt;/code&gt;. For example,&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; name[&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;];
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;mutable&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; accesses;
+	...
+};
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; data veep &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Claybourne Clodde&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, ...};
+strcpy(veep.name, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Joye Joux&amp;#34;&lt;/span&gt;);
+veep.accesses&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;about-const&#34;&gt;About &lt;code&gt;const&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;In c++(but not C), the &lt;code&gt;const&lt;/code&gt; modifier alters the default storage classes slightly. Whereas a global variable has external linkage by default, a &lt;code&gt;const&lt;/code&gt; global variable has internal linkage by default.
+If, for some reason, you want to make a constant have external linkage, you can use the &lt;code&gt;external&lt;/code&gt; keyword to override the default internal linkage:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;external &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; states&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// definition with external linkage
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When you declare a &lt;code&gt;const&lt;/code&gt; within a function or block, it has block scope, which means the constant is usable only when the program is executing code within the block. This means that you can create constant within a function or block and not have to worry about the names conflicting with constants defined elsewhere.&lt;/p&gt;
+&lt;h3 id=&#34;function-and-linkageone-definition-rule&#34;&gt;Function and Linkage(One definition rule)&lt;/h3&gt;
+&lt;p&gt;C++, like C, doesn&amp;rsquo;t allow you to define one function inside another, so all function automatically have static storage duration, meaning they are all present as long as the program is running. By default, functions have external linkage, meaning they can be shared across files. You can, in fact, use the keyword &lt;code&gt;extern&lt;/code&gt; in a function prototype to indicate that the function is defined in another file, but that&amp;rsquo;s optional. You can also use the keyword &lt;code&gt;static&lt;/code&gt; to give a function internal linkage, confining its use to a single file. You would apply this keyword to the &lt;code&gt;prototype&lt;/code&gt; and the &lt;code&gt;function definition&lt;/code&gt;.
+&lt;strong&gt;Nite:&lt;/strong&gt; where C++ find functions
+Suppose you call a function in a particular program. Where does C++ look for the function definition? If the function prototype in that file indicates that the file is static, the compiler looks only in that file for the function definition. Otherwise, the compiler(and the linker, too) look in all the program files. If it finds two definition, the compiler sends you a error message because you can have only one definition for one external function. If it fails to find any definition in the files, the function then searches the libraries. This implies that if you define a function that has the same name as a library function, the compiler uses you version rather than the library version.(However, C++ reserves the names of the standard library functions, so you shound&amp;rsquo;t reuse them.) Some compiler-linker need explicit instructions to identify which library to search.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Adventures in Functions</title>
