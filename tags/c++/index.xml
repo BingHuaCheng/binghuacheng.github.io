@@ -312,7 +312,84 @@ The following fragment summaries the main concept:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;which-function-version-does-the-compiler-pickoverload-resolution&#34;&gt;Which Function Version Does the Compiler Pick?(overload resolution)&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Phase 1&lt;/strong&gt; &amp;ndash; Assemble a list of candidate function. These are functions and template function that have the same names as the called the called functions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Phase 2&lt;/strong&gt; &amp;ndash; From the candidate functions, assemble a list of viable（切实可行的） function. These are functions with the correct number of arguments and for which there is implicit conversion sequence, which includes the case of an exact match of each type of actual argument to the type of the corresponding formal argument. For example, a function call with a type &lt;code&gt;float&lt;/code&gt; argument could have that value converted to a &lt;code&gt;double&lt;/code&gt; to match a type &lt;code&gt;double&lt;/code&gt; formal parameter, and a template could generate an instantiation for &lt;code&gt;float&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Phase 3&lt;/strong&gt; &amp;ndash; Determine whether there is a best viable function. If so, you use that function. Otherwise, the function call is an error.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h4 id=&#34;extract-matches-an-best-matches&#34;&gt;Extract Matches an Best Matches&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Trival Conversations Allowed for an Extract Match&lt;/strong&gt;&lt;/em&gt;
+| From an Actual Argument | To a Formal Argument|
+| &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;	| &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|
+| Type			| Type &amp;amp; 		|
+| Type &amp;amp;		| Type			|
+| Type []		| * Type		|
+| Type(argument-list)	| Type(*)(argument-list	|
+| Type			| const Type		|
+| Type			| volatile Type		|
+| Type *		| const Type *		|
+| Type *		| volatile Type *	|&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; The overload resolution process look for a function that&amp;rsquo;s the best match. If there&amp;rsquo;s just one, that function is chosen. If more than one are otherwise tied, but only one is a non template, that non template function is chosen. If more than one candidate are otherwise tied and all are  template functions, but one template is more specialized than the rest, that one is chosen. If there are two or more equally good non template functions, or if there are two or more equally good template functions, none is which is more specified than the rest, the function call is ambiguous and an error. If there are non matching calls, of course, that&amp;rsquo;s also an error.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; As with regular functions, a template function definition can act as its own prototype if it appears before the function is used.&lt;/p&gt;
+&lt;h3 id=&#34;template-function-evolution&#34;&gt;Template Function Evolution&lt;/h3&gt;
+&lt;p&gt;One problem is that when you write a template function, it&amp;rsquo;s not always possible in C++98 to know what type to use in a declaration. Consider this example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T1&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; ft(T1 x, T2 y)
+{
+	...
+	&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;type&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; xpy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y;
+	...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;What should the type for xyp be?&lt;/p&gt;
+&lt;h4 id=&#34;the-decltype-keywordc11&#34;&gt;The &lt;code&gt;decltype&lt;/code&gt; Keyword(C++11)&lt;/h4&gt;
+&lt;p&gt;The C++11 solution for the above problem is a new keyword:&lt;code&gt;decltype&lt;/code&gt;. It can be used in this way:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;decltype&lt;/span&gt;(x) y;	&lt;span style=&#34;color:#75715e&#34;&gt;// make y the same type as x
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The argument to &lt;code&gt;decltype&lt;/code&gt; can be an expression, so in the &lt;code&gt;ft()&lt;/code&gt; example, wwe could use this code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;decltype&lt;/span&gt;(x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y) xpy;	&lt;span style=&#34;color:#75715e&#34;&gt;// make xpy the same as x+y
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;xpy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For the &lt;code&gt;decltype&lt;/code&gt; facility, the compiler has to go through a checklist to decide on the type. Suppose we have the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;decltype&lt;/span&gt;(expression) var
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here are somewhat simplified version of the list:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Stage 1: If &lt;code&gt;expression&lt;/code&gt; is an unparenthesized identifier(that is, no additional parentheses), then &lt;code&gt;var&lt;/code&gt; is of the same type as the identifier, including such as &lt;code&gt;const&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Stage 2: If &lt;code&gt;expression&lt;/code&gt; is a function call, then &lt;code&gt;var&lt;/code&gt; has the type of the function return type.&lt;/li&gt;
+&lt;li&gt;Stage 3: If &lt;code&gt;expression&lt;/code&gt; is an lvalue, then &lt;code&gt;var&lt;/code&gt; is a reference to the expression type.(p440)&lt;/li&gt;
+&lt;li&gt;Stage 4: If none of the preceding special cases apply, &lt;code&gt;var&lt;/code&gt; is of the same type as &lt;code&gt;expression&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you need more than one declaration, you can use &lt;code&gt;typedef&lt;/code&gt; with &lt;code&gt;decltype&lt;/code&gt;, such as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;decltype&lt;/span&gt;(x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y) xytype;
+xytype xpy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y;
+xytype arr[&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;];
+xytype &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; rxy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; arr[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;// rxy a reference
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;alternative-function-syntaxc11-trailing-return-type&#34;&gt;Alternative Function Syntax(C++11 Trailing Return Type)&lt;/h4&gt;
+&lt;p&gt;Due to the &lt;code&gt;decltype&lt;/code&gt; specifier has to come after the parameters are declared, the &lt;code&gt;decltype&lt;/code&gt; mechanism by itself leaves another related problem unsolved. Consider this incomplete template function:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T1&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;type&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; gt(T1 x, T2 y)
+{
+	...
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Again, we don&amp;rsquo;t know in advance what type results from adding x and y.
+C++11 allows a new syntax for declaring and defining functions. Here&amp;rsquo;s how it works using built-in type. The prototype:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;h&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;float&lt;/span&gt; y);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;can be written with this alternative syntax:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;h&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;float&lt;/span&gt; y) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The same form could be used with the function definition:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;{&lt;span style=&#34;color:#75715e&#34;&gt;/* function body*/&lt;/span&gt;}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; h(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;float&lt;/span&gt; y) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Combining this syntax with &lt;code&gt;decltype&lt;/code&gt; leads to the following solution for specifying the return type for &lt;code&gt;gt()&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T1&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; gt(T1 x, T2 y) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;decltype&lt;/span&gt;(x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y)
+{
+	...
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;y;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;C++ has expanded C function capabilities. By using an inline keyword with a function definition and by placing that definition ahead of the first call to that function, you suggest to the C++ compiler that it make the function inline. That is, instead of having the program jump to a separate section of code to execute the function, the compiler replaces the function call with the corresponding code inline. An inline facility should be used only when the function is short.
+A reference variable is a kind of disguised(伪装的） pointer that lets you create an alias(that is, a second name) for a variable. Reference variables are primarily used as arguments to functions that process structure and class object. Normally, an identifier declared as a reference to a particular type can refer only to data of that type. However, when one class is derived from another, such as &lt;code&gt;ofstream&lt;/code&gt; from &lt;code&gt;ostream&lt;/code&gt;, a reference to the base type may also refer to the derived type.
+C++ prototypes enable you to define default values for arguments. If a function call omits the corresponding argument, the program uses the default value. If a function includes an argument value, the program uses that value instead of the default. Default argument can be provided only from right to left in the argument list. Thus, if you provide a default value for a particular argument, you must also provide default value to the right of that argument.
+A function&amp;rsquo;s signature is its argument list. You can define two functions having the same name, provided that they have different signatures. This is called &lt;code&gt;function polymorphism&lt;/code&gt;, or &lt;code&gt;function overloading&lt;/code&gt;. Typically, you overload functions to provide essentially the same service to different types.
+Function templates automate the process of overloading function. You define a function by using a generic type and a particular algorithm, and the compiler generates appropriate function definitions for the particular argument types you use in a program.&lt;/p&gt;
 </description>
     </item>
     

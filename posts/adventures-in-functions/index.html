@@ -14,7 +14,7 @@
 <link rel="icon" type="image/x-icon" href="https://binghuacheng.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://binghuacheng.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589454021" />
+<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589605217" />
 
 
 
@@ -360,7 +360,84 @@ The following fragment summaries the main concept:</p>
 </code></pre></div><h3 id="which-function-version-does-the-compiler-pickoverload-resolution">Which Function Version Does the Compiler Pick?(overload resolution)</h3>
 <ul>
 <li><strong>Phase 1</strong> &ndash; Assemble a list of candidate function. These are functions and template function that have the same names as the called the called functions.</li>
+<li><strong>Phase 2</strong> &ndash; From the candidate functions, assemble a list of viable（切实可行的） function. These are functions with the correct number of arguments and for which there is implicit conversion sequence, which includes the case of an exact match of each type of actual argument to the type of the corresponding formal argument. For example, a function call with a type <code>float</code> argument could have that value converted to a <code>double</code> to match a type <code>double</code> formal parameter, and a template could generate an instantiation for <code>float</code>.</li>
+<li><strong>Phase 3</strong> &ndash; Determine whether there is a best viable function. If so, you use that function. Otherwise, the function call is an error.</li>
 </ul>
+<h4 id="extract-matches-an-best-matches">Extract Matches an Best Matches</h4>
+<p><em><strong>Trival Conversations Allowed for an Extract Match</strong></em>
+| From an Actual Argument | To a Formal Argument|
+| &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;	| &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|
+| Type			| Type &amp; 		|
+| Type &amp;		| Type			|
+| Type []		| * Type		|
+| Type(argument-list)	| Type(*)(argument-list	|
+| Type			| const Type		|
+| Type			| volatile Type		|
+| Type *		| const Type *		|
+| Type *		| volatile Type *	|</p>
+<hr>
+<p><em><strong>Note:</strong></em> The overload resolution process look for a function that&rsquo;s the best match. If there&rsquo;s just one, that function is chosen. If more than one are otherwise tied, but only one is a non template, that non template function is chosen. If more than one candidate are otherwise tied and all are  template functions, but one template is more specialized than the rest, that one is chosen. If there are two or more equally good non template functions, or if there are two or more equally good template functions, none is which is more specified than the rest, the function call is ambiguous and an error. If there are non matching calls, of course, that&rsquo;s also an error.</p>
+<p><em><strong>Note:</strong></em> As with regular functions, a template function definition can act as its own prototype if it appears before the function is used.</p>
+<h3 id="template-function-evolution">Template Function Evolution</h3>
+<p>One problem is that when you write a template function, it&rsquo;s not always possible in C++98 to know what type to use in a declaration. Consider this example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T1</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T2</span><span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">void</span> ft(T1 x, T2 y)
+{
+	...
+	<span style="color:#f92672">?</span>type<span style="color:#f92672">?</span> xpy<span style="color:#f92672">=</span>x<span style="color:#f92672">+</span>y;
+	...
+}
+</code></pre></div><p>What should the type for xyp be?</p>
+<h4 id="the-decltype-keywordc11">The <code>decltype</code> Keyword(C++11)</h4>
+<p>The C++11 solution for the above problem is a new keyword:<code>decltype</code>. It can be used in this way:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int</span> x;
+<span style="color:#66d9ef">decltype</span>(x) y;	<span style="color:#75715e">// make y the same type as x
+</span></code></pre></div><p>The argument to <code>decltype</code> can be an expression, so in the <code>ft()</code> example, wwe could use this code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">decltype</span>(x<span style="color:#f92672">+</span>y) xpy;	<span style="color:#75715e">// make xpy the same as x+y
+</span><span style="color:#75715e"></span>xpy<span style="color:#f92672">=</span>x<span style="color:#f92672">+</span>y;
+</code></pre></div><p>For the <code>decltype</code> facility, the compiler has to go through a checklist to decide on the type. Suppose we have the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">decltype</span>(expression) var
+</code></pre></div><p>Here are somewhat simplified version of the list:</p>
+<ul>
+<li>Stage 1: If <code>expression</code> is an unparenthesized identifier(that is, no additional parentheses), then <code>var</code> is of the same type as the identifier, including such as <code>const</code>.</li>
+<li>Stage 2: If <code>expression</code> is a function call, then <code>var</code> has the type of the function return type.</li>
+<li>Stage 3: If <code>expression</code> is an lvalue, then <code>var</code> is a reference to the expression type.(p440)</li>
+<li>Stage 4: If none of the preceding special cases apply, <code>var</code> is of the same type as <code>expression</code></li>
+</ul>
+<p><strong>Note:</strong> If you need more than one declaration, you can use <code>typedef</code> with <code>decltype</code>, such as</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">decltype</span>(x<span style="color:#f92672">+</span>y) xytype;
+xytype xpy<span style="color:#f92672">=</span>x<span style="color:#f92672">+</span>y;
+xytype arr[<span style="color:#ae81ff">10</span>];
+xytype <span style="color:#f92672">&amp;</span> rxy <span style="color:#f92672">=</span> arr[<span style="color:#ae81ff">2</span>];	<span style="color:#75715e">// rxy a reference
+</span></code></pre></div><h4 id="alternative-function-syntaxc11-trailing-return-type">Alternative Function Syntax(C++11 Trailing Return Type)</h4>
+<p>Due to the <code>decltype</code> specifier has to come after the parameters are declared, the <code>decltype</code> mechanism by itself leaves another related problem unsolved. Consider this incomplete template function:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T1</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T2</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">?</span>type<span style="color:#f92672">?</span> gt(T1 x, T2 y)
+{
+	...
+	<span style="color:#66d9ef">return</span> x<span style="color:#f92672">+</span>y;
+}
+</code></pre></div><p>Again, we don&rsquo;t know in advance what type results from adding x and y.
+C++11 allows a new syntax for declaring and defining functions. Here&rsquo;s how it works using built-in type. The prototype:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">h</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">float</span> y);
+</code></pre></div><p>can be written with this alternative syntax:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">auto</span> <span style="color:#a6e22e">h</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">float</span> y) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">double</span>;
+</code></pre></div><p>The same form could be used with the function definition:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">{<span style="color:#75715e">/* function body*/</span>}
+<span style="color:#66d9ef">auto</span> h(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">float</span> y) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">double</span>
+</code></pre></div><p>Combining this syntax with <code>decltype</code> leads to the following solution for specifying the return type for <code>gt()</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T1</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T2</span><span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">auto</span> gt(T1 x, T2 y) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">decltype</span>(x<span style="color:#f92672">+</span>y)
+{
+	...
+	<span style="color:#66d9ef">return</span> x<span style="color:#f92672">+</span>y;
+}
+</code></pre></div><h2 id="summary">Summary</h2>
+<p>C++ has expanded C function capabilities. By using an inline keyword with a function definition and by placing that definition ahead of the first call to that function, you suggest to the C++ compiler that it make the function inline. That is, instead of having the program jump to a separate section of code to execute the function, the compiler replaces the function call with the corresponding code inline. An inline facility should be used only when the function is short.
+A reference variable is a kind of disguised(伪装的） pointer that lets you create an alias(that is, a second name) for a variable. Reference variables are primarily used as arguments to functions that process structure and class object. Normally, an identifier declared as a reference to a particular type can refer only to data of that type. However, when one class is derived from another, such as <code>ofstream</code> from <code>ostream</code>, a reference to the base type may also refer to the derived type.
+C++ prototypes enable you to define default values for arguments. If a function call omits the corresponding argument, the program uses the default value. If a function includes an argument value, the program uses that value instead of the default. Default argument can be provided only from right to left in the argument list. Thus, if you provide a default value for a particular argument, you must also provide default value to the right of that argument.
+A function&rsquo;s signature is its argument list. You can define two functions having the same name, provided that they have different signatures. This is called <code>function polymorphism</code>, or <code>function overloading</code>. Typically, you overload functions to provide essentially the same service to different types.
+Function templates automate the process of overloading function. You define a function by using a generic type and a particular algorithm, and the compiler generates appropriate function definitions for the particular argument types you use in a program.</p>
 
         </div>
         <div class="article-info">
