@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Objects and Classes</title>
+      <link>https://binghuacheng.github.io/posts/objects-and-classes/</link>
+      <pubDate>Sun, 17 May 2020 09:10:31 +0000</pubDate>
+      
+      <guid>https://binghuacheng.github.io/posts/objects-and-classes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Thinking0</title>
       <link>https://binghuacheng.github.io/posts/thinking0/</link>
       <pubDate>Sat, 16 May 2020 14:29:27 +0000</pubDate>
@@ -61,7 +70,7 @@
 &lt;li&gt;Dynamic storage duration&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;specifiers-and-qualifiers&#34;&gt;Specifiers and Qualifiers&lt;/h3&gt;
-&lt;p&gt;Certain C++ keywords, called &lt;code&gt;storage class specifier&lt;/code&gt; and &lt;code&gt;cv-qualifiers&lt;/code&gt;, provide@s additional information about storage.&lt;/p&gt;
+&lt;p&gt;Certain C++ keywords, called &lt;code&gt;storage class specifier&lt;/code&gt; and &lt;code&gt;cv-qualifiers&lt;/code&gt;, provided  additional information about storage.&lt;/p&gt;
 &lt;h4 id=&#34;cv-qualifiers&#34;&gt;Cv-Qualifiers&lt;/h4&gt;
 &lt;p&gt;Here are the cv-qualifiers:&lt;/p&gt;
 &lt;ul&gt;
@@ -86,9 +95,171 @@ If, for some reason, you want to make a constant have external linkage, you can 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;external &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; states&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// definition with external linkage
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When you declare a &lt;code&gt;const&lt;/code&gt; within a function or block, it has block scope, which means the constant is usable only when the program is executing code within the block. This means that you can create constant within a function or block and not have to worry about the names conflicting with constants defined elsewhere.&lt;/p&gt;
 &lt;h3 id=&#34;function-and-linkageone-definition-rule&#34;&gt;Function and Linkage(One definition rule)&lt;/h3&gt;
-&lt;p&gt;C++, like C, doesn&amp;rsquo;t allow you to define one function inside another, so all function automatically have static storage duration, meaning they are all present as long as the program is running. By default, functions have external linkage, meaning they can be shared across files. You can, in fact, use the keyword &lt;code&gt;extern&lt;/code&gt; in a function prototype to indicate that the function is defined in another file, but that&amp;rsquo;s optional. You can also use the keyword &lt;code&gt;static&lt;/code&gt; to give a function internal linkage, confining its use to a single file. You would apply this keyword to the &lt;code&gt;prototype&lt;/code&gt; and the &lt;code&gt;function definition&lt;/code&gt;.
-&lt;strong&gt;Nite:&lt;/strong&gt; where C++ find functions
-Suppose you call a function in a particular program. Where does C++ look for the function definition? If the function prototype in that file indicates that the file is static, the compiler looks only in that file for the function definition. Otherwise, the compiler(and the linker, too) look in all the program files. If it finds two definition, the compiler sends you a error message because you can have only one definition for one external function. If it fails to find any definition in the files, the function then searches the libraries. This implies that if you define a function that has the same name as a library function, the compiler uses you version rather than the library version.(However, C++ reserves the names of the standard library functions, so you shound&amp;rsquo;t reuse them.) Some compiler-linker need explicit instructions to identify which library to search.&lt;/p&gt;
+&lt;p&gt;C++, like C, doesn&amp;rsquo;t allow you to define one function inside another, so all function automatically have static storage duration, meaning they are all present as long as the program is running. By default, functions have external linkage, meaning they can be shared across files. You can, in fact, use the keyword &lt;code&gt;extern&lt;/code&gt; in a function prototype to indicate that the function is defined in another file, but that&amp;rsquo;s optional. You can also use the keyword &lt;code&gt;static&lt;/code&gt; to give a function internal linkage, confining its use to a single file. You would apply this keyword to the &lt;code&gt;prototype&lt;/code&gt; and the &lt;code&gt;function definition&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; where C++ find functions&lt;/p&gt;
+&lt;p&gt;Suppose you call a function in a particular program. Where does C++ look for the function definition? If the function prototype in that file indicates that the file is static, the compiler looks only in that file for the function definition. Otherwise, the compiler(and the linker, too) look in all the program files. If it finds two definition, the compiler sends you a error message because you can have only one definition for one external function. If it fails to find any definition in the files, the function then searches the libraries. This implies that if you define a function that has the same name as a library function, the compiler uses you version rather than the library version.(However, C++ reserves the names of the standard library functions, so you shound&amp;rsquo;t reuse them.) Some compiler-linker need explicit instructions to identify which library to search.&lt;/p&gt;
+&lt;h2 id=&#34;storages-schemes-and-dynamic-allocation&#34;&gt;Storages Schemes and Dynamic Allocation&lt;/h2&gt;
+&lt;p&gt;The dynamic memory can be allocated from one function and freed from another function. Unlike automatic memory, dynamic memory is not &lt;code&gt;LIFO&lt;/code&gt;; the order of allocation and freeing depends on when and how &lt;code&gt;new&lt;/code&gt; and &lt;code&gt;delete&lt;/code&gt; are used.&lt;/p&gt;
+&lt;h3 id=&#34;new-operators-functions-and-replacement-function&#34;&gt;&lt;code&gt;new&lt;/code&gt;: Operators, Functions, and Replacement Function&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;new&lt;/code&gt; and &lt;code&gt;new[]&lt;/code&gt; operators call upon two functions:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;new&lt;/span&gt;(std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;size_t);	&lt;span style=&#34;color:#75715e&#34;&gt;//used by new
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;[](std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;size_t);	&lt;span style=&#34;color:#75715e&#34;&gt;//used by new[]
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;These are termed &lt;code&gt;allocation function&lt;/code&gt;, and they are part of the global namespace. Similarly, there are deallocation functions used by &lt;code&gt;delete&lt;/code&gt; and &lt;code&gt;delete[]&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;delete&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;);		&lt;span style=&#34;color:#75715e&#34;&gt;// used by new
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;[](std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;size_t);	&lt;span style=&#34;color:#75715e&#34;&gt;// used by new[]
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here the &lt;code&gt;std::size_t&lt;/code&gt; is &lt;code&gt;typedef&lt;/code&gt; for some suitable integer type.
+A basic statement such as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pi &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;gets translated into something like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pi &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And the statement&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pa &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;];
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;gets translated into something like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pa&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In general, using the &lt;code&gt;new&lt;/code&gt; operator may do more than just call the &lt;code&gt;new()&lt;/code&gt; function.&lt;/p&gt;
+&lt;h3 id=&#34;the-placement-new-operator&#34;&gt;The Placement &lt;code&gt;new&lt;/code&gt; Operator&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;new&lt;/code&gt; operator has a variation, called &lt;code&gt;placement new&lt;/code&gt;, that allows you to specify the location to be used. You can use thid feature to set up your own memory-management procedures or to deal with hardware that is accessed via a particular address or to construct objects in a particular memory location.
+To use the placement &lt;code&gt;new&lt;/code&gt; feature, you first include the &lt;code&gt;new&lt;/code&gt; header file, which provides a prototype for this version of &lt;code&gt;new&lt;/code&gt;. The following code fragment shows the syntax for using these four forms of &lt;code&gt;new&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;new&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;chaff&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; dross[&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;];
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; slag;
+};
+&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; buffer1[&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;];
+&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; buffer2[&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;];
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()
+{
+	chaff &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;p1, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;p2;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;p3, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;p4;
+	&lt;span style=&#34;color:#75715e&#34;&gt;// first, the regular forms of new
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	p1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; chaff;	&lt;span style=&#34;color:#75715e&#34;&gt;// place structure in heap
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	p3&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;// place int array in heap
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// now, thw two forms of placement new
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	p2&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; (buffer1) chaff;	&lt;span style=&#34;color:#75715e&#34;&gt;// place structure in buffer1
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	p4&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; (buffer2) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;//place int array in buffer2
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;other-forms-of-placement-new&#34;&gt;Other Forms of Placement &lt;code&gt;new&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Just as regular ``new&lt;code&gt;invokes a new function with one argument, the standard placement&lt;/code&gt;new``` invokes a new function with two arguments:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; p1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// invokes new(sizeof(int))
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; p2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; (buffer) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// invokes new(sizeof(int), buffer)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; p3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; (buffer) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;// invokes new(40*sizeof(int), buffer)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;namespaces&#34;&gt;Namespaces&lt;/h2&gt;
+&lt;h3 id=&#34;traditional-c-namespaces&#34;&gt;Traditional C++ Namespaces&lt;/h3&gt;
+&lt;p&gt;One term you need to be aware of is &lt;code&gt;declarative region&lt;/code&gt;. A declaratice region is a region in which declaration can be made. For example, you can declare a global variable outside any function. The declarative region for that variable is the file in which it is declared. If you declare a variable inside a function , its declarative region is the innermost block in which it is declared.
+A second term you need to be aware of is &lt;code&gt;potential scope&lt;/code&gt;. The potential scope for a variable begins at its point of declaration and extends to the end of its declarative region.
+The portion of the program that can actually see the the variable is termed the &lt;code&gt;scope&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;new-namespace-features&#34;&gt;New Namespace Features&lt;/h3&gt;
+&lt;p&gt;The following code, for example, uses the keyword &lt;code&gt;namespace&lt;/code&gt; to craete two namespaces, &lt;code&gt;Jack&lt;/code&gt; and &lt;code&gt;Jill&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; Jack {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; pail;	&lt;span style=&#34;color:#75715e&#34;&gt;// variable declaration
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fetch&lt;/span&gt;();	&lt;span style=&#34;color:#75715e&#34;&gt;// function prototype
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; pal;	&lt;span style=&#34;color:#75715e&#34;&gt;// variable declaration
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Well&lt;/span&gt; {...};	&lt;span style=&#34;color:#75715e&#34;&gt;// structe declaration
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; Jill {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;bucket&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; n) {...}	&lt;span style=&#34;color:#75715e&#34;&gt;//function definition
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; fetch;		&lt;span style=&#34;color:#75715e&#34;&gt;// variable declaration
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; pal;	&lt;span style=&#34;color:#75715e&#34;&gt;// variable declaration
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Hill&lt;/span&gt; {...};	&lt;span style=&#34;color:#75715e&#34;&gt;// structure declaration
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Namespaces can be located at the global level or inside other namespace, but they cannot be placed in a block. Thus, a name declared in a namespace has external linkage by default(unless it refers to a &lt;code&gt;constant&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Namepsace are &lt;code&gt;open&lt;/code&gt;, meaning that they can add names to existing namespaces. for example, the following statement adds the name &lt;code&gt;goose&lt;/code&gt; to the existing list of names in &lt;code&gt;Jill&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; Jill {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;goose&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Of course, you need a way to access names in a given namespace. The simplest way is to use ::, the scope-resolution operator, to &lt;code&gt;qualify&lt;/code&gt;(限定，修饰） a name with its namespace:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Jack&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;pail&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;12.34&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// use a variable
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Jill&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Hill&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;mole; 	&lt;span style=&#34;color:#75715e&#34;&gt;// create a type Hill structure
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Jack&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;fetch();		&lt;span style=&#34;color:#75715e&#34;&gt;//use a function
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;An unadorned name, such as &lt;code&gt;pail&lt;/code&gt;, is termed the &lt;code&gt;unqualified name&lt;/code&gt;, whereas a name with the namespace, as in &lt;code&gt;Jack::pail&lt;/code&gt;, is termed a &lt;code&gt;qualified name&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;using-declarations-and-using-directives&#34;&gt;&lt;code&gt;using&lt;/code&gt; Declarations and &lt;code&gt;using&lt;/code&gt; Directives&lt;/h3&gt;
+&lt;p&gt;C++ provides two mechanisms &amp;ndash; the &lt;code&gt;using declaration&lt;/code&gt; and the &lt;code&gt;using directive&lt;/code&gt; &amp;ndash; to simplify using namespace names. The &lt;code&gt;using&lt;/code&gt; declaration lets you make particular identifier available, and the &lt;code&gt;using directive&lt;/code&gt; makes the entire namespace accessible. for instance:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; Jill&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;fetch&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;\&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// a using declaration
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;using-directives-versus-using-declarations&#34;&gt;&lt;code&gt;using&lt;/code&gt; Directives Versus &lt;code&gt;using&lt;/code&gt; Declarations&lt;/h3&gt;
+&lt;p&gt;If a particular name is alreday declared in a function, you can&amp;rsquo;t import the same name with a &lt;code&gt;using declaration&lt;/code&gt;. However, if you use a &lt;code&gt;using  directiv&lt;/code&gt;e to import a name that is already declared in a function, the local name will hide the namespace name, just as it would hide a global variable of the same name. But you can still use the scope-resolution operators, as in the following example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; Jill {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;bucket&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; n) { }
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; fetch;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Hill&lt;/span&gt; { ... };
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; fetch;	&lt;span style=&#34;color:#75715e&#34;&gt;// global namespace
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; Jill;	&lt;span style=&#34;color:#75715e&#34;&gt;// import all namespace names
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	Hill Thrill;		&lt;span style=&#34;color:#75715e&#34;&gt;// create a type Jill::Hill structure
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; water&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;bucket(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// use Jill::bucket();
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; fetch;		&lt;span style=&#34;color:#75715e&#34;&gt;// not an error; hides Jill::fetch
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; fetch;		&lt;span style=&#34;color:#75715e&#34;&gt;// read a value into the local fetch
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;fetch;		&lt;span style=&#34;color:#75715e&#34;&gt;// read a value into global fetch
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; Jill&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;fetch;	&lt;span style=&#34;color:#75715e&#34;&gt;// read a value into Jill::fetch
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	...
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;foom&lt;/span&gt;()
+{
+	Hill top;	&lt;span style=&#34;color:#75715e&#34;&gt;// ERROR
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	Jill&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Hill crest;	&lt;span style=&#34;color:#75715e&#34;&gt;// valid
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Generally speaking, the &lt;code&gt;using&lt;/code&gt; declaration is safer to use than a &lt;code&gt;using&lt;/code&gt; directive because it shows exactly what names you are making available . And if the name conflict with a local name, the compiler lets you know. The &lt;code&gt;using&lt;/code&gt; directive adds all names, even one you might not need. If a local name conflicts, it overrides the namespace version, and you aren&amp;rsquo;t warned. Also, the open nature of namespaces means that the complete list of names in a namespace might be spread over several locations, making it difficult to know exactly which name you are adding.&lt;/p&gt;
+&lt;h3 id=&#34;more-namespace-feature&#34;&gt;More Namespace Feature&lt;/h3&gt;
+&lt;p&gt;You can nest namespace declarations, like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; elements
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; fire
+	{
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; flame;
+		...
+	}
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;float&lt;/span&gt; water;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this case, you can refer to the flame variable as elements::fire::flame. Similarly, you can make the inner names available with this &lt;code&gt;using&lt;/code&gt; directive:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; element&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;fire;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Also, you can use &lt;code&gt;using&lt;/code&gt; directive and &lt;code&gt;using&lt;/code&gt; declarations inside namespaces, like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; myth
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; Jill&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;fetch;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; elements;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cin;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now consider applying a &lt;code&gt;using&lt;/code&gt; directive to the &lt;code&gt;myth&lt;/code&gt; namespace. The &lt;code&gt;using&lt;/code&gt; directive is &lt;code&gt;transtive&lt;/code&gt;. In this context, the upshot is that the following statement places both the &lt;code&gt;myth&lt;/code&gt; and &lt;code&gt;elements&lt;/code&gt; namespaces in scope:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; myth;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This single directive has the same effect as the following two directives:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; myth;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; elements;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can create an alias for a namespace. For example, suppose you have a namespace defined as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; my_very_favorite_things { ... };
+&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; mvft&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;my_very_favorite_things;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can use this technique to simplify using nested namespaces:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; MEF&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;myth&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;element&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;fire;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; MEF&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;flame;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;unnamed-namespaces&#34;&gt;Unnamed Namespaces&lt;/h3&gt;
+&lt;p&gt;You can create an &lt;code&gt;unnamed namespace&lt;/code&gt; by omiting the namespace name:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// unnamed namespace
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; ice;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; bandcoot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Names in an unnamed namespace are like global variables. This provides an alternative to using static variables with internal linkage.&lt;/p&gt;
+&lt;h3 id=&#34;namespaces-and-the-future&#34;&gt;Namespaces and the Future&lt;/h3&gt;
+&lt;p&gt;Here are some programming idioms:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use variables in a named namespace instead of using external global variables.&lt;/li&gt;
+&lt;li&gt;Use variable in an unnamed namespace instead of using static global variable.&lt;/li&gt;
+&lt;li&gt;If you develop a library of functions or classes, place them in a namespace. Instead, C++ currently already calls for placing standard library function in a namespace called &lt;code&gt;std&lt;/code&gt;. This extends to functions brought in from C. For example, the &lt;code&gt;math.c&lt;/code&gt; header file, which is C-compatible, doesn&amp;rsquo;t use namespaces, but the C++ &lt;code&gt;cmath&lt;/code&gt; header file should place the various math library functions in the &lt;code&gt;std&lt;/code&gt; namespace.&lt;/li&gt;
+&lt;li&gt;Use the &lt;code&gt;using&lt;/code&gt; directive only as a tempolary means of converting old code to namespace usage.&lt;/li&gt;
+&lt;li&gt;Don&amp;rsquo;t use &lt;code&gt;using&lt;/code&gt; directives in header files; for one thing, doing so conceals which names are being made available. Also, the ordering of header files may affect behavior. If you use a &lt;code&gt;using&lt;/code&gt; directive, place it after all the preprocessor &lt;code&gt;#include&lt;/code&gt; directive.&lt;/li&gt;
+&lt;li&gt;Preferentially import names by using the scope-resolution operator or a &lt;code&gt;using&lt;/code&gt; declaration.&lt;/li&gt;
+&lt;li&gt;Preferentially use local scope instead of global scope for &lt;code&gt;using&lt;/code&gt; declarations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;C++ encourages the use of multiple files in developing programs. An effective organization strategy is to use a header file to define user types and provide function prototype for functions to manipulate the user type. You should use a separate source code file for the fnction definitions. Together, the header file and the source file define and implement the user-defined type and how it can be used. Then, &lt;code&gt;main()&lt;/code&gt; and other functions using those functions can go into a third file.
+C++&#39;s storage schemes determine how long variables remain in memory(storage duration) and what parts of a program have access to them(scope and linkage). Automatic variables are variables that are defined within a block, such as a function body or a block within the body. They exist and are known only while the program executes statements in the block that contains the definition. Automatic variable may be declared by using the storage class specifier &lt;code&gt;register&lt;/code&gt; or with no specifier at all, in which case the variable is automatically automatic. The &lt;code&gt;register&lt;/code&gt; specifier was a hint to the compiler that the variable is heavily used, but that use is deprecated(反对) under C++11.&lt;/p&gt;
 </description>
     </item>
     
