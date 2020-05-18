@@ -17,7 +17,200 @@
       <pubDate>Sun, 17 May 2020 09:10:31 +0000</pubDate>
       
       <guid>https://binghuacheng.github.io/posts/objects-and-classes/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;main-content&#34;&gt;Main Content&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;procedural and object-oriented programming&lt;/li&gt;
+&lt;li&gt;The concept of classes&lt;/li&gt;
+&lt;li&gt;How to define and implement a class&lt;/li&gt;
+&lt;li&gt;Public and private class&lt;/li&gt;
+&lt;li&gt;Class data members&lt;/li&gt;
+&lt;li&gt;Class methods(also called class function members)&lt;/li&gt;
+&lt;li&gt;Creating and using class objects&lt;/li&gt;
+&lt;li&gt;Class constructors and destructors&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;const&lt;/code&gt; member function&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;this&lt;/code&gt; pointer&lt;/li&gt;
+&lt;li&gt;Creating array of objects&lt;/li&gt;
+&lt;li&gt;Class scope&lt;/li&gt;
+&lt;li&gt;Abstract data types&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;procedural-and-object-oriented-programming&#34;&gt;Procedural and Object-Oriented Programming&lt;/h2&gt;
+&lt;p&gt;In short, with an OOP approach, you concentrate on the object as the user perceives it, thinking about the data you need to describe the object and and the operations that will describe the user&amp;rsquo;s interaction with the data. After you develop a description of that interface, you move on to decide how to implement the interface and data storage. Finally, you put together a program to use your new design.&lt;/p&gt;
+&lt;h2 id=&#34;abstraction-and-classes&#34;&gt;Abstraction and Classes&lt;/h2&gt;
+&lt;h3 id=&#34;type&#34;&gt;Type&lt;/h3&gt;
+&lt;p&gt;In short, specifying a basic type does three things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It determines how much memory is needed for a data object.&lt;/li&gt;
+&lt;li&gt;It determines how the bits in memory are interpreted.(A &lt;code&gt;long&lt;/code&gt; and &lt;code&gt;float&lt;/code&gt; might use the same number of bits in memory, but they are translated into numberic values differently.)&lt;/li&gt;
+&lt;li&gt;It determines what operators, or methods, can be performed using the data object&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;classes-in-c&#34;&gt;Classes in C++&lt;/h3&gt;
+&lt;p&gt;A &lt;code&gt;class&lt;/code&gt; is a C++ vehicle for translating an abstraction to a user-defined type. It combines data representation and methods for manipulating that data into one neat package.
+Generally , a class specifier has two parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A &lt;code&gt;class declaration&lt;/code&gt;, which describes the data component, in terms of member functions and the public interface, in terms of member function, termed &lt;code&gt;methods&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;class method definition&lt;/code&gt;, which describes how certain class member function are implemented.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Roughly speaking, the class declaration provides a class overview, whereas the method definitions supply the details
+Typically, C++ programmers place the interface, in the form of a class definition, in the header and places the implementation, in the form of code for the class methods, in a source code file.
+The binding of data and methods into a single unit is the most striking feature of the class.&lt;/p&gt;
+&lt;h4 id=&#34;access-control&#34;&gt;Access Control&lt;/h4&gt;
+&lt;p&gt;The keyword &lt;code&gt;private&lt;/code&gt; and &lt;code&gt;public&lt;/code&gt; describe &lt;code&gt;access control&lt;/code&gt; for class members. Any program that uses an object of a particular class can access the public portions directly. A program can access the private members of a object by using the public member function or a friend function.
+The public member functions act as go-betweens between a program and an object&amp;rsquo;s private members; they provide the interface between object and program. The insulation(n.绝缘，隔离) of data from direct access by a program is called &lt;code&gt;data hiding&lt;/code&gt;.
+The public interface represents the abstraction component of the design. Gathering the implementation details together and separating from the abstraction is called &lt;code&gt;encapsulation&lt;/code&gt;. &lt;code&gt;Data hiding&lt;/code&gt;(putting data into the private section of a class) is an instance of encapsulation, another example of encapsulation is the usual practice of placing class function in a separate file from the class declaration.&lt;/p&gt;
+&lt;h4 id=&#34;member-access-control-public-or-private&#34;&gt;Member Access Control: Public or Private?&lt;/h4&gt;
+&lt;p&gt;Because the main percepts of OOP is to hide the data, data items normally go into the private section. The member functions that consitute the class interface go into the public section.
+You don&amp;rsquo;t have to use the keyword &lt;code&gt;private&lt;/code&gt; in class declarations because this is the default access control for class objects:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;World&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;float&lt;/span&gt; mass;	&lt;span style=&#34;color:#75715e&#34;&gt;// private by default
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; name[&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;// private by default
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; tellall(&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;);
+	...
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;implementing-class-member-functions&#34;&gt;Implementing class Member Functions&lt;/h3&gt;
+&lt;p&gt;The class member function has two special characteristics:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When you define a member function, you use the scope-resolution operator(::) to identify the class to which the function belongs.&lt;/li&gt;
+&lt;li&gt;Class methods can access the &lt;code&gt;private&lt;/code&gt; components of the class&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;inline-methods&#34;&gt;Inline Methods&lt;/h4&gt;
+&lt;p&gt;Any function with a definition in the class declaration automatically becomes an inline function.&lt;/p&gt;
+&lt;h4 id=&#34;which-objects-does-a-method-use&#34;&gt;Which Objects Does a method Use?&lt;/h4&gt;
+&lt;p&gt;When you call a member function, it uses the data members of the particular object used to invoke the member function.
+Each new object you create contains storage for its own internal variables, the class members. But all objects of the same class share the same set of class methods, with just one copy of each method. Suppose, for example, that &lt;code&gt;kate&lt;/code&gt; and &lt;code&gt;joe&lt;/code&gt; are &lt;code&gt;Stock&lt;/code&gt; objects. In that case, &lt;code&gt;kate.shares&lt;/code&gt; occupies one chunk of memory, and &lt;code&gt;joe.show()&lt;/code&gt; occupies a second chunk of memory. But &lt;code&gt;kate.show&lt;/code&gt; and &lt;code&gt;joe.show&lt;/code&gt; both invoke the same method.
+Calling a member function is what some OOP language term &lt;code&gt;sending a message&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;using-classes&#34;&gt;Using Classes&lt;/h3&gt;
+&lt;p&gt;***Note:***The Client/Server Model&lt;/p&gt;
+&lt;p&gt;OOP programmers often discuss program design in terms of a client/server model. In this conceptualization, the &lt;code&gt;client&lt;/code&gt; is a program that uses the class. The class declaration, including the methods, constitute the server, which is a resource that is available to the programmer that need it. The client uses the server throuht the publicly defined interface only. This means that the client&amp;rsquo;s only reposbility, and, by extension, the client&amp;rsquo;s programmer&amp;rsquo;s only reponsibility, is to know that interface. The server&amp;rsquo;s reponsibility, and by extension, the server&amp;rsquo;s designer&amp;rsquo;s reponsibility, is to see that the server reliably and accurately performs according to that interface. Any changes the server designer makes to the class design should be to details of implementation, not to the interface. This allows programmers to improve the client and client independently of each other, without changes in the server having unforseen repercussion on client&amp;rsquo;s behavior.&lt;/p&gt;
+&lt;h2 id=&#34;class-constructorsinitialize-class-object--and-destructors&#34;&gt;Class Constructors(&lt;code&gt;initialize class object&lt;/code&gt;)  and Destructors&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; Although the constructor has no return value, it&amp;rsquo;s not declared type &lt;code&gt;void&lt;/code&gt;. In fact, a constructor has no declared type.&lt;/p&gt;
+&lt;h3 id=&#34;declaring-and-defining-constructors&#34;&gt;Declaring and Defining Constructors&lt;/h3&gt;
+&lt;p&gt;Here is an example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// constructor prototype with some default arguments
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stock(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; string &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; co, &lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; n&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; pr&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;)
+
+...
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// constructor definition
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stock&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Stock(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; string &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; co, &lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; n, &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; pr)
+{
+	company &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; co;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (n&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+	{	
+		std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cerr &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Number of shares can&amp;#39;t be negative; &amp;#34;&lt;/span&gt;
+			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; company &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; shares set to 0.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
+		shares&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+	}
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+		shares&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;n;
+	share_val&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;pr;
+	set_tot();
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;Member Names and Parameter Names:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Often those new to constructors try to use the class names as parameter names in the constructors, as in this example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Stock(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; string &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; company, &lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; shares, &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; share_val)
+{
+	...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is wrong. The constructor arguments don&amp;rsquo;t represent the class members; they represent values that are assigned to the class member. Thus, they must have distanct names, or you end up with confusing code like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;shares&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;shares;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;One common coding practice to avoid such confusion is to use an &lt;code&gt;m_&lt;/code&gt; prefix to identify data member names:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Stock&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+		string m_company;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; m_shares;
+		...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Another common practice is to use an underbar suffix for member names:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Stock&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+		string company_;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; shares_;
+	...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;using-constructors&#34;&gt;Using Constructors&lt;/h3&gt;
+&lt;p&gt;C++ provides two ways to initialize an object by using a constructor. The first is to call the constructor explicitly:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock food &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Stock(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;World Cabbage&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.25&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The second way is to call the constructor implicitly:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock &lt;span style=&#34;color:#a6e22e&#34;&gt;garment&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Furry Mason&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.5&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The more compact form is equivalent to the following explicit call:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock garment&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Stock(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Furry Mason&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2.5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;C++ uses a class constructor whenever you create an object of that class, even when you use &lt;code&gt;new&lt;/code&gt; for dynamic memory allocation. Here&amp;rsquo;s how to use the constructor with &lt;code&gt;new&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;pstock &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Stock(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Electroshock Games&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;19.0&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this case, the object doesn&amp;rsquo;t have a name, but you can use the pointer to manage the object.
+&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; You can&amp;rsquo;t use an object to invoke a constructor.&lt;/p&gt;
+&lt;h3 id=&#34;default-constructors&#34;&gt;Default Constructors&lt;/h3&gt;
+&lt;p&gt;A &lt;code&gt;default constructor&lt;/code&gt; is a constructor that is used to create an object when you don&amp;rsquo;t provide explicit initialization values. That is, it&amp;rsquo;s a constructor used for declarations like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock fluffy_the_cat;	&lt;span style=&#34;color:#75715e&#34;&gt;// uses the default constructor
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can define a default constructor two ways. One is to provide default values for all the arguments to the existing constructor:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; string &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; co &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Error&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; pr&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The second is to use function overloading to define a second constructor, one that has no arguments:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can have only one default constructor, so be sure that you don&amp;rsquo;t do both.
+When you design a class, you should usually provide a default constructor that implicitly initialize all class members.
+After you&amp;rsquo;ve used either method(no arguments or default values for all arguments) to create the default constructor, you can declare object variable without initializing them explicitly:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock first;	&lt;span style=&#34;color:#75715e&#34;&gt;// calls default constructor implicitly
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stock first&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Stock();	&lt;span style=&#34;color:#75715e&#34;&gt;// call default constructor explicitly
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stock &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;prelief &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Stock;	&lt;span style=&#34;color:#75715e&#34;&gt;// calls default constructor implicitly
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;However, you shouldn&amp;rsquo;t be misled by the implicit form of the nondefault constructor:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Stock &lt;span style=&#34;color:#a6e22e&#34;&gt;first&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Concrete Conglomerate&amp;#34;&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// calls nondefault constructor
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stock &lt;span style=&#34;color:#a6e22e&#34;&gt;second&lt;/span&gt;()		&lt;span style=&#34;color:#75715e&#34;&gt;// declare a function that returns a ```Stock``` object
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stock third;		&lt;span style=&#34;color:#75715e&#34;&gt;// calls default constructor
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When you implicitly call the default constructor, you don&amp;rsquo;t use parentheses.&lt;/p&gt;
+&lt;h3 id=&#34;destructors&#34;&gt;Destructors&lt;/h3&gt;
+&lt;p&gt;Like a constructor, a destructor has a special name: it is formed from the class name preceded by a tilde(~). Thus, the destructor for the &lt;code&gt;Stock&lt;/code&gt; class is called &lt;code&gt;~Stock()&lt;/code&gt;. Also like a constructor, a destructor can have no return value and has no declared type. But, unlike a constructor, a destructor must have no arguments. Thus, the prototype for a &lt;code&gt;Stock&lt;/code&gt; destructor must be this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt;Stock()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If you create a static storage class object, its destructor is called automatically when the program terminates. If you create an automatic storage class object, its destructor is called automatically when the program exits the block of code in which the object is defined. If the object is created by &lt;code&gt;new&lt;/code&gt;, it resides in heap memory, or the free store, and its destructor is called automatically when you use &lt;code&gt;delete&lt;/code&gt; to free the memory.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;When you assign one object to another of the same class, by default C++ copies the contents of each data member of the source object to the corresponding data member of the target object.
+Here are two ways to create objects:
+&lt;em&gt;&lt;strong&gt;Tip:&lt;/strong&gt;&lt;/em&gt; If you can set object either through initialization or by assignment, choose initialization. It is usually more efficient.&lt;/p&gt;
+&lt;h4 id=&#34;const-member-functions&#34;&gt;&lt;code&gt;const&lt;/code&gt; Member Functions&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;show&lt;/span&gt;() &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// promises not to change invoking object
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Similarly, the beginning of the function definition should look like this:
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; stock&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;show() &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// promises not to change invoking object
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Class functions declared and definited this way are called &lt;code&gt;const&lt;/code&gt; member function. Just as you should use &lt;code&gt;const&lt;/code&gt; reference and pointers as formal function argument whenever appropriate, you should make class methods &lt;code&gt;const&lt;/code&gt; whenever they don&amp;rsquo;t modify the invoking object.&lt;/p&gt;
+&lt;h4 id=&#34;c11-list-initialization&#34;&gt;C++11 List Initialization&lt;/h4&gt;
+&lt;p&gt;Suppose the &lt;code&gt;Bazo&lt;/code&gt; class has the following prototype for a class constructor:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Bozo(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; fname, &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; lname);	&lt;span style=&#34;color:#75715e&#34;&gt;// constructor prototype
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Before C++11, you can use it to initialize new objects as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Bazo bozetta&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Bozo(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Bozetta&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Biggers&amp;#34;&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// primary form
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Bozo &lt;span style=&#34;color:#a6e22e&#34;&gt;fufu&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Fufu&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;O&amp;#39;Dweep&amp;#34;&lt;/span&gt;);		&lt;span style=&#34;color:#75715e&#34;&gt;// short form
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Bozo &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;pc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Bozo(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Popo&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Le Peu&amp;#34;&lt;/span&gt;);	&lt;span style=&#34;color:#75715e&#34;&gt;// dynamic object
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In C++11, you can use the list initialization instead:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Bozo bozetta&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Bozetta&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Biggens&amp;#34;&lt;/span&gt;};	&lt;span style=&#34;color:#75715e&#34;&gt;// C++11
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Bozo fufu{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Fufu&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;O&amp;#39;Dweeb&amp;#34;&lt;/span&gt;};		&lt;span style=&#34;color:#75715e&#34;&gt;//C++11
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Bozo &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;pc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Bozo{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Popo&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Le Peu&amp;#34;&lt;/span&gt;;};	&lt;span style=&#34;color:#75715e&#34;&gt;//C++11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;knowing-your-objects-the-this-pointer&#34;&gt;Knowing your Objects: The &lt;code&gt;this&lt;/code&gt; pointer&lt;/h2&gt;
+&lt;p&gt;Suppose, then, that you want to compare the &lt;code&gt;Stock&lt;/code&gt; objects &lt;code&gt;stock1&lt;/code&gt; and &lt;code&gt;stock2&lt;/code&gt; and assign the one with the greater value to the object &lt;code&gt;top&lt;/code&gt;. You can use either of the following statement to do so:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;top&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;stock1.topval(stock2);
+top&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;stock2.topval(stock1);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first form access &lt;code&gt;stock1&lt;/code&gt; implicitly and &lt;code&gt;stock2&lt;/code&gt; explicitly, whereas the second access &lt;code&gt;stock1&lt;/code&gt; explicitly and &lt;code&gt;stock&lt;/code&gt; implicitly.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;this&lt;/code&gt; pointer points to the object used to invoke a member function.(Basically, &lt;code&gt;this&lt;/code&gt; is passed as a hidden argument to the method.) Thus, the function call &lt;code&gt;stock1.topval(stock2)&lt;/code&gt; sets &lt;code&gt;this&lt;/code&gt; to the address of the &lt;code&gt;stock1&lt;/code&gt; object.
+&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; Each member function, including constructors and destructors, has a &lt;code&gt;this&lt;/code&gt; pointer. The special property of the &lt;code&gt;this&lt;/code&gt; pointer is that it points to the invoking object. If a method needs to refer to the invoking object as a whole, it can use the expression &lt;code&gt;*this&lt;/code&gt;. Using the const qualifier after the function argument parentheses qualifies  &lt;code&gt;this&lt;/code&gt; as being a pointer to &lt;code&gt;const&lt;/code&gt;; in that case, you can&amp;rsquo;t use &lt;code&gt;this&lt;/code&gt; to change the object&amp;rsquo;s value.&lt;/p&gt;
+&lt;h2 id=&#34;class-scope&#34;&gt;Class Scope&lt;/h2&gt;
+&lt;p&gt;Class scope applies to names defined in a class, such as the names of class data member and class member functions. Items that have class scope are known within the class but not outside the class. Thus, you can use the same member names in different classes without conflict.&lt;/p&gt;
+&lt;h3 id=&#34;class-scope-constants&#34;&gt;Class Scope Constants&lt;/h3&gt;
+&lt;p&gt;First, you can declare an enumeration within a class. An enumeration given in a class declaration has class scope, so you can use enumeration to provide class scope symbolic name for integer constants. That is, you can start off the &lt;code&gt;Bakery&lt;/code&gt; declaration this way:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Bakery&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; { Months&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; };
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; costs[Months];
+	...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Because the &lt;code&gt;Bakery&lt;/code&gt; class uses the enumeration merely to create a symbolic constant, with no intent of creating variables of the enumeration type, you needn&amp;rsquo;t provide an enumeration tag.
+C++ has a second way of defining a constant within a class &amp;ndash; using the keyword &lt;code&gt;static&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Bakery&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; Months&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; costs[Months];
+		...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This creates a single constant called &lt;code&gt;Months&lt;/code&gt; that is stored with other static variables rather than in an object. Thus, there is only one &lt;code&gt;Month&lt;/code&gt; constant shared by all &lt;code&gt;Bakery&lt;/code&gt; objects.&lt;/p&gt;
+</description>
     </item>
     
     <item>
