@@ -14,12 +14,12 @@
 <link rel="icon" type="image/x-icon" href="https://binghuacheng.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://binghuacheng.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589855473" />
+<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589894031" />
 
 
 
 <meta property="og:title" content="Working With Class" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="Main Content  Operator overloading Friend function Overloading the &laquo; operator for output State members Using rand() to generate random values Automatic conversions and type casts for classes Class conversion functions  Operator Overloading Operator overloading is an example of C&#43;&#43; polymorphism. Operator overloading extends the overloading concept to operators, letting you assign multiple meanings to C&#43;&#43; operators. To overload an operator, you use a special function form called an operator function." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://binghuacheng.github.io/posts/working-with-class/" />
 <meta property="article:published_time" content="2020-05-19T02:28:26+00:00" />
@@ -27,7 +27,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Working With Class"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="Main Content  Operator overloading Friend function Overloading the &laquo; operator for output State members Using rand() to generate random values Automatic conversions and type casts for classes Class conversion functions  Operator Overloading Operator overloading is an example of C&#43;&#43; polymorphism. Operator overloading extends the overloading concept to operators, letting you assign multiple meanings to C&#43;&#43; operators. To overload an operator, you use a special function form called an operator function."/>
 
 
 
@@ -65,7 +65,99 @@
             <h1>Working With Class</h1>
         </header>
         <div class="content">
-            
+            <h2 id="main-content">Main Content</h2>
+<ul>
+<li>Operator overloading</li>
+<li>Friend function</li>
+<li>Overloading the &laquo; operator for output</li>
+<li>State members</li>
+<li>Using <code>rand()</code> to generate random values</li>
+<li>Automatic conversions and type casts for classes</li>
+<li>Class conversion functions</li>
+</ul>
+<h2 id="operator-overloading">Operator Overloading</h2>
+<p><code>Operator overloading</code> is an example of C++ polymorphism. Operator overloading extends the overloading concept to operators, letting you assign multiple meanings to C++ operators.
+To overload an operator, you use a special function form called an <code>operator function</code>. An operator function has the following form, where <code>op</code> is the symbol for the operator being overloaded:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">operatorop(argument<span style="color:#f92672">-</span>list)
+</code></pre></div><p>For example, <code>operator+()</code> overloads the <code>+</code> operator and <code>opeartor*()</code> overloads the <code>*</code> operator. The <code>op</code> has to be a valid C++ operator; you can&rsquo;t just make up a new symbol.</p>
+<p>Suppose, for example, that you have a <code>Salesperson</code> class for which you define an <code>operator+()</code> member function to overload the <code>+</code> operator so that it adds sales figures of one salesperson object to another. Then, if <code>district2</code>, <code>sid</code>, and <code>sare</code> are all object of the <code>salesperson</code> class, you can write this equation:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">district2<span style="color:#f92672">=</span>sid<span style="color:#f92672">+</span>sare;
+</code></pre></div><p>The compiler, recognizing the operands as belonging to the <code>salesperson</code> class, replaces the operator with the corresponding operator function:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">district2<span style="color:#f92672">=</span>sid.<span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(sara);
+</code></pre></div><h2 id="developing-an-operator-overloading-example">Developing an Operator Overloading Example</h2>
+<p><em><strong>Caution:</strong></em></p>
+<p>Don&rsquo;t return a reference to a local variable or another temporary object. When the function terminates and the local variable or temporary object disappears, the reference becomes a reference to non-exist data.</p>
+<h3 id="overloading-restrictions">Overloading Restrictions</h3>
+<p>Overloaded operators(with some exceptions) don&rsquo;t necessarily have to be member functions. However, there are some limits C++ imposes on user-defined operator overloading:</p>
+<ul>
+<li>The overloaded operator must have at least one operand that is user-defined type.</li>
+<li>You can&rsquo;t use an operator in a manner that violates the syntax rules for the original operator. For example, you can&rsquo;t overload the modules operator(%) so that it can be used with a single operand. Similarly, you can&rsquo;t alter operator precedence. So if you overload the addition operator to let you add two classes, the new operator has the same precedence as ordinary addition.</li>
+<li>You can&rsquo;t create new operator symbols. For example, you can&rsquo;t define an <code>operator**()</code> function to denote exponentiation.</li>
+<li>You cannot overload the following operators:</li>
+</ul>
+<pre><code>|Operator	|Description			|
+|.....		|.......			|
+|sizeof		|the sizeof operator		|
+|.		|the membership operator	|
+|.*		|the pointer-to-member operator	|
+|::		|the scope-resolution operator	|
+|?:		|the conditional operator	|
+|typeid		|An RTTI operator		|
+|const_cast	|A type cast operator		|
+|dynamic_cast	|A type cast operator		|
+|reinterpret	|A type cast operator		|
+|static_cast	|A type cast operator		|
+</code></pre><ul>
+<li>Most of the operators in Table11.1 can be overloaded by using either member or nonmemberfunctions. However, you can use <code>only</code> member function to overload the following operators:</li>
+</ul>
+<pre><code>|Operator		|Description				|
+|........		|........				|
+|	=		|Assignment operator			|
+|	()		|Function call operator			|
+|	[]		|Subscripting operator			|
+|	-&gt;		|Class member access by pointer operator|
+</code></pre><p><em><strong>Table 11.1</strong></em> Operator that can be overloaded</p>
+<pre><code>+	-	*
+/	%	&amp;
+|	~	!
+=	&lt;	&gt;
++=	-=	*=
+/=	%=	&amp;=
+|=	&lt;&lt;	&gt;&gt;
+&gt;&gt;=	&lt;&lt;=	==
+!=	&lt;=	&gt;=
+&amp;&amp;	||	++
+--	,	-&gt;*
+-&gt;	()	[]	
+new	delete	
+new[]	delete[]
+</code></pre><h2 id="introducing-friends">Introducing Friends</h2>
+<p>C++ provides another form of access the private portion of a class object: the <code>friend</code>. Friend comes in three varieties:</p>
+<ul>
+<li>Friend functions</li>
+<li>Friend classes</li>
+<li>Friend member functions</li>
+</ul>
+<p>With the nonmember overloaded operator function, the left operand of an operator expression corresponds to the first argument of the operator function, and the right operand corresponds to the second argument. Using a nonmember function(<code>friend function</code>) solves the problem of getting the operands in the desired order.</p>
+<h3 id="creating-friends">creating Friends</h3>
+<p>The first step toward creating a friend function is to place a prototype in the class declaration and prefix the declaration with the keyword <code>friend</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">friend</span> Time <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">double</span> m, <span style="color:#66d9ef">const</span> Time <span style="color:#f92672">&amp;</span> t);	<span style="color:#75715e">// goes into class declaration
+</span></code></pre></div><p>This prototype has two implications:</p>
+<ul>
+<li>Althrough the operator*() function is declared in the class declaration, it is not a member function. So it isn&rsquo;t invoked by using the membership operator.</li>
+<li>Althrough the operator*() function isn&rsquo;t a member function, it has the same access rights as a member function.</li>
+</ul>
+<p>The second step is to write the function definition. Because it is not a member function, you don&rsquo;t use the <code>Time::</code> qualifier. Also you don&rsquo;t use the <code>friend</code> keyword in the definition. For instance:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Time <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">double</span> m, <span style="color:#66d9ef">const</span> Time <span style="color:#f92672">&amp;</span> t)	<span style="color:#75715e">//friend not used in definition
+</span></code></pre></div><h3 id="a-common-kind-of-friend-overloading-the--operator">A Common Kind of Friend: Overloading the <code>&lt;&lt;</code> Operator</h3>
+<p>In general, to overload the &laquo; operator to display an object of class <code>c_name</code>, you use a friend function with a definition in this form:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">ostream <span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream <span style="color:#f92672">&amp;</span> os, <span style="color:#66d9ef">const</span> c_name <span style="color:#f92672">&amp;</span> obj)
+{
+	os <span style="color:#f92672">&lt;&lt;</span> ...;	<span style="color:#75715e">// display object content
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> os;
+}
+</code></pre></div><h2 id="more-overloading-a-vector-class">More Overloading: A Vector Class</h2>
+
         </div>
         <div class="article-info">
     
