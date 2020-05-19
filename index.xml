@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Working With Class</title>
+      <link>https://binghuacheng.github.io/posts/working-with-class/</link>
+      <pubDate>Tue, 19 May 2020 02:28:26 +0000</pubDate>
+      
+      <guid>https://binghuacheng.github.io/posts/working-with-class/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Objects and Classes</title>
       <link>https://binghuacheng.github.io/posts/objects-and-classes/</link>
       <pubDate>Sun, 17 May 2020 09:10:31 +0000</pubDate>
@@ -210,6 +219,30 @@ C++ has a second way of defining a constant within a class &amp;ndash; using the
 		...
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This creates a single constant called &lt;code&gt;Months&lt;/code&gt; that is stored with other static variables rather than in an object. Thus, there is only one &lt;code&gt;Month&lt;/code&gt; constant shared by all &lt;code&gt;Bakery&lt;/code&gt; objects.&lt;/p&gt;
+&lt;h3 id=&#34;scoped-enumerationsc11&#34;&gt;Scoped Enumerations(C++11)&lt;/h3&gt;
+&lt;p&gt;Regular enumberations get converted to integer types automatically in some situations, such as assignment to an &lt;code&gt;int&lt;/code&gt; variable or being used in comparison expression, but scoped enumerations have no implicit conversions to integer types:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;egg_old&lt;/span&gt; {Small, Medium, Large, Jumbo};	&lt;span style=&#34;color:#75715e&#34;&gt;// unscoped
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;t_shirt&lt;/span&gt; {Small, Medium, Large, Xlarge};	&lt;span style=&#34;color:#75715e&#34;&gt;// scoped
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;egg_old one&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Medium;	&lt;span style=&#34;color:#75715e&#34;&gt;// unscoped 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;t_shirt rolf&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;t_shirt&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Large;	&lt;span style=&#34;color:#75715e&#34;&gt;// scoped
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; king&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;one;	&lt;span style=&#34;color:#75715e&#34;&gt;// implicit type conversion for unscoped
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; ring&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;rolf;	&lt;span style=&#34;color:#75715e&#34;&gt;// not allowed, no implicit type conversation
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (king&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;Jumbo)		&lt;span style=&#34;color:#75715e&#34;&gt;// allowed
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Jumbo converted to int before comparision.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (king&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;t_shirt&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Medium)	&lt;span style=&#34;color:#75715e&#34;&gt;// not allowed
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Not allowed: &amp;lt; not defined for scoped enum.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Enumberations are represented by some underlying integer type, and under C98 that choice was implementation-dependent.
+By default, the underlying type for C++11 scoped enumberations is &lt;code&gt;int&lt;/code&gt;. However, there&amp;rsquo;s a syntax for indicating a different choice:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// underlying type for pizza is short
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;: &lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;short&lt;/span&gt; pizza{Small, Medium, Large, XLarge};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;: short&lt;/code&gt; specifies the underlying type to be &lt;code&gt;short&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;OOP emphasizes how a program represents data. The first step toward solving a programming problem by using the OOP approach is to describe the data in terms of its interface with the program, specifying how the data is used. Next, you need to design a class that implements the interface. Typically, private data members storage the informaion, whereas public member functions, also called methods, provide the only access to the data. The class combines data and methods into one unit, and the private aspect accomplish data hiding.
+Usually, you separate a class declaration into two parts, usually kept in separate files. The class declaration proper goes into a header file, with the methods represented by function prototype. The source code that defines the member functions goes into a method file. This approach separates the description of the interface from the details of the implementation. In principle, you need to know only the public class interface to use the class.
+A class is a user-defined type, and an object is an instance of a class. This means an object is a variable of that type or the equivalent of a variable, such as memory allocated by &lt;code&gt;new&lt;/code&gt; according to the class specification. C++ tries to make user-defined types as similarly as possible to standard types, so you can declare objects, pointers to objects, and array of objects. You can pass objects as arguments, return them as function return values, and assign one object to another of the same type. If you provide a constructor method, you can initialize objects when they are created. If you provide a destructor method, the program execute that method when the object expires.
+Each object holds its own copies of the data portion of a class declaration, but they share the class methods. If &lt;code&gt;my_object&lt;/code&gt; is the name of a particular object and &lt;code&gt;try_me()&lt;/code&gt; is a member function, you invoke the member function by using the dot membership operator:&lt;code&gt;mr_object.try_me()&lt;/code&gt;. OOP terminology describes this function call as sending a &lt;code&gt;try_me()&lt;/code&gt; message to the &lt;code&gt;mr_object&lt;/code&gt; object. Any reference to class data member in the &lt;code&gt;try_me()&lt;/code&gt; method then applies to the data members of the &lt;code&gt;mr_object&lt;/code&gt; object. Similarly, the function call &lt;code&gt;i_object,try_me()&lt;/code&gt; access the data member of the &lt;code&gt;i_object&lt;/code&gt; object.
+If you want a member function to act on more than one object, you can pass additional objects to the method as arguments. If a method needs to refer explicitly to the object that evoked it, it can use the &lt;code&gt;this&lt;/code&gt; pointer. The &lt;code&gt;this&lt;/code&gt; pointer is set to the address of the evoking object, so &lt;code&gt;*this&lt;/code&gt; is an alias for object itself.
+Classes are well matched to describing ADTs. The public member function interface provides the service described by an ADT, and the class&amp;rsquo;s private section and the code for the class methods provide an implementation that is hidden from clients of the class.&lt;/p&gt;
 </description>
     </item>
     

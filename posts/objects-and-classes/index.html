@@ -14,7 +14,7 @@
 <link rel="icon" type="image/x-icon" href="https://binghuacheng.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://binghuacheng.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589808979" />
+<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589855473" />
 
 
 
@@ -258,6 +258,30 @@ C++ has a second way of defining a constant within a class &ndash; using the key
 		...
 }
 </code></pre></div><p>This creates a single constant called <code>Months</code> that is stored with other static variables rather than in an object. Thus, there is only one <code>Month</code> constant shared by all <code>Bakery</code> objects.</p>
+<h3 id="scoped-enumerationsc11">Scoped Enumerations(C++11)</h3>
+<p>Regular enumberations get converted to integer types automatically in some situations, such as assignment to an <code>int</code> variable or being used in comparison expression, but scoped enumerations have no implicit conversions to integer types:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">egg_old</span> {Small, Medium, Large, Jumbo};	<span style="color:#75715e">// unscoped
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">t_shirt</span> {Small, Medium, Large, Xlarge};	<span style="color:#75715e">// scoped
+</span><span style="color:#75715e"></span>egg_old one<span style="color:#f92672">=</span>Medium;	<span style="color:#75715e">// unscoped 
+</span><span style="color:#75715e"></span>t_shirt rolf<span style="color:#f92672">=</span>t_shirt<span style="color:#f92672">::</span>Large;	<span style="color:#75715e">// scoped
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> king<span style="color:#f92672">=</span>one;	<span style="color:#75715e">// implicit type conversion for unscoped
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> ring<span style="color:#f92672">=</span>rolf;	<span style="color:#75715e">// not allowed, no implicit type conversation
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> (king<span style="color:#f92672">&gt;</span>Jumbo)		<span style="color:#75715e">// allowed
+</span><span style="color:#75715e"></span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Jumbo converted to int before comparision.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+<span style="color:#66d9ef">if</span> (king<span style="color:#f92672">&lt;</span>t_shirt<span style="color:#f92672">::</span>Medium)	<span style="color:#75715e">// not allowed
+</span><span style="color:#75715e"></span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Not allowed: &lt; not defined for scoped enum.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</code></pre></div><p>Enumberations are represented by some underlying integer type, and under C98 that choice was implementation-dependent.
+By default, the underlying type for C++11 scoped enumberations is <code>int</code>. However, there&rsquo;s a syntax for indicating a different choice:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// underlying type for pizza is short
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">: </span><span style="color:#a6e22e">short</span> pizza{Small, Medium, Large, XLarge};
+</code></pre></div><p>The <code>: short</code> specifies the underlying type to be <code>short</code>.</p>
+<h2 id="summary">Summary</h2>
+<p>OOP emphasizes how a program represents data. The first step toward solving a programming problem by using the OOP approach is to describe the data in terms of its interface with the program, specifying how the data is used. Next, you need to design a class that implements the interface. Typically, private data members storage the informaion, whereas public member functions, also called methods, provide the only access to the data. The class combines data and methods into one unit, and the private aspect accomplish data hiding.
+Usually, you separate a class declaration into two parts, usually kept in separate files. The class declaration proper goes into a header file, with the methods represented by function prototype. The source code that defines the member functions goes into a method file. This approach separates the description of the interface from the details of the implementation. In principle, you need to know only the public class interface to use the class.
+A class is a user-defined type, and an object is an instance of a class. This means an object is a variable of that type or the equivalent of a variable, such as memory allocated by <code>new</code> according to the class specification. C++ tries to make user-defined types as similarly as possible to standard types, so you can declare objects, pointers to objects, and array of objects. You can pass objects as arguments, return them as function return values, and assign one object to another of the same type. If you provide a constructor method, you can initialize objects when they are created. If you provide a destructor method, the program execute that method when the object expires.
+Each object holds its own copies of the data portion of a class declaration, but they share the class methods. If <code>my_object</code> is the name of a particular object and <code>try_me()</code> is a member function, you invoke the member function by using the dot membership operator:<code>mr_object.try_me()</code>. OOP terminology describes this function call as sending a <code>try_me()</code> message to the <code>mr_object</code> object. Any reference to class data member in the <code>try_me()</code> method then applies to the data members of the <code>mr_object</code> object. Similarly, the function call <code>i_object,try_me()</code> access the data member of the <code>i_object</code> object.
+If you want a member function to act on more than one object, you can pass additional objects to the method as arguments. If a method needs to refer explicitly to the object that evoked it, it can use the <code>this</code> pointer. The <code>this</code> pointer is set to the address of the evoking object, so <code>*this</code> is an alias for object itself.
+Classes are well matched to describing ADTs. The public member function interface provides the service described by an ADT, and the class&rsquo;s private section and the code for the class methods provide an implementation that is hidden from clients of the class.</p>
 
         </div>
         <div class="article-info">
