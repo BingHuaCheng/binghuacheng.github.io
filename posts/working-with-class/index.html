@@ -14,7 +14,7 @@
 <link rel="icon" type="image/x-icon" href="https://binghuacheng.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://binghuacheng.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589894031" />
+<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1589975421" />
 
 
 
@@ -150,13 +150,63 @@ new[]	delete[]
 <p>The second step is to write the function definition. Because it is not a member function, you don&rsquo;t use the <code>Time::</code> qualifier. Also you don&rsquo;t use the <code>friend</code> keyword in the definition. For instance:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Time <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">double</span> m, <span style="color:#66d9ef">const</span> Time <span style="color:#f92672">&amp;</span> t)	<span style="color:#75715e">//friend not used in definition
 </span></code></pre></div><h3 id="a-common-kind-of-friend-overloading-the--operator">A Common Kind of Friend: Overloading the <code>&lt;&lt;</code> Operator</h3>
-<p>In general, to overload the &laquo; operator to display an object of class <code>c_name</code>, you use a friend function with a definition in this form:</p>
+<p>One of the most common tasks for operator overloading is defining the <code>&lt;&lt;</code> operator so that it can be used in conjunction with the <code>cout</code> object to display an object&rsquo;s contents.
+In general, to overload the &laquo; operator to display an object of class <code>c_name</code>, you use a friend function with a definition in this form:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">ostream <span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream <span style="color:#f92672">&amp;</span> os, <span style="color:#66d9ef">const</span> c_name <span style="color:#f92672">&amp;</span> obj)
 {
 	os <span style="color:#f92672">&lt;&lt;</span> ...;	<span style="color:#75715e">// display object content
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> os;
 }
-</code></pre></div><h2 id="more-overloading-a-vector-class">More Overloading: A Vector Class</h2>
+</code></pre></div><h3 id="multiple-representation-and-classes">Multiple Representation and Classes</h3>
+<p>Quantities that have different, but equivalent, representations are common.</p>
+<ul>
+<li>First, you can store multiple representations in one object.</li>
+<li>Second, you can write the class function so that assigning values for one representation automatically assigns values for the other representation(s).</li>
+</ul>
+<h3 id="overloading-arithmetic-operators">Overloading Arithmetic Operators</h3>
+<p><em><strong>Tip:</strong></em></p>
+<p>If a method needs to compute a new class object, you should see if you can use a class constructor to do the work. Not only does that save you trouble, it ensures that the new object is constructed in the proper fashion.</p>
+<p><em><strong>Note:</strong></em>
+Because operator overloading is implemented with functions, you can overload the same operator many times, as long as each operator function has a distinct signature and as long as each operator function has the same number of operands as the corresponding built-in C++ operator.</p>
+<h2 id="automatic-conversiona-and-type-casts-for-classes">Automatic Conversiona and Type Casts for Classes</h2>
+<p>You may define a class suffciently related to a basic type or another class that it makes sense to convert from one form to another. In such a case, you can tell C++ how to make such conversions automatically.</p>
+<p><em><strong>Note:</strong></em> A C++ constructor that contains one argument defines a type conversion from the argument type to the class type. If the constructor is qualified with the keyword <code>explicit</code>, the constructor is used for explicit conversion only; otherwise, it is also used for implicit conversation.</p>
+<p>When does the compiler use the <code>Stonewt(double)</code> function? If the keyword <code>explicit</code> is used in the declaration, <code>Stonewt(double)</code> is used only for an explicit type cast; otherwise, it is also used for the following implicit conversions:</p>
+<ul>
+<li>When you initialize a <code>Stonewt</code> object to a type <code>double</code> value.</li>
+<li>When you assign a type <code>double</code> value to a <code>Stonewt</code> object</li>
+<li>Whe you pass a type <code>double</code> value to a function that expects a <code>Stonewt</code> argument.</li>
+<li>When a function that&rsquo;s declared to return a <code>Stonewt</code> value tries to return a <code>double</code> value.</li>
+<li>When any of the preceding situations use a built-in type that can unambiguously be converted to type <code>double</code>.</li>
+</ul>
+<p><em><strong>Note:</strong></em> Note that when a constructor has a single argument, you can use the following form when initializing a class object:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// a syntax for initializing a class object when
+</span><span style="color:#75715e">// using a constructor with one argument
+</span><span style="color:#75715e"></span>Stonewt incognito<span style="color:#f92672">=</span><span style="color:#ae81ff">275</span>;
+</code></pre></div><p>This is equivalent to the other two forms shown earlier:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// standard syntax forms for initializing class objects
+</span><span style="color:#75715e"></span>Stonewt <span style="color:#a6e22e">incognito</span>(<span style="color:#ae81ff">275</span>);
+Stonewt incognito<span style="color:#f92672">=</span>Stonewt(<span style="color:#ae81ff">275</span>);
+</code></pre></div><p>However, the last forms can also be used with constructors that have multiple arguments.</p>
+<h3 id="conversion-function">Conversion Function</h3>
+<p>Constructors only provide for converting another type to the class type. To do the reverse, you have to use a special form of C++ operator function called a <code>conversion function</code>.
+So how do you create a conversion function? To convert to type <code>typename</code>, you use a conversion function in this form:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">typename</span>()
+</code></pre></div><p>Note the following points:</p>
+<ul>
+<li>The conversion function must be a class method.</li>
+<li>The conversion function must not specify a return type</li>
+<li>The conversion function must have no arguments.</li>
+</ul>
+<p>For example, a function to convert to type double would have this prototype:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">double</span>()
+</code></pre></div><p><em><strong>Caution:</strong></em></p>
+<p>You should use implicit conversion functions with care. Often a function that can only be invoked explicitly is the best choice. A conversion function must be a member function.</p>
+<p>C++ provides the following type conversions for classes:</p>
+<ul>
+<li>A class constructor that has but a single argument serves as an instruction for converting a value of the argument type to the class type.</li>
+<li>A special class member operator function called <code>conversion function</code> serves as an instruction for converting a class object to some other type.</li>
+</ul>
 
         </div>
         <div class="article-info">

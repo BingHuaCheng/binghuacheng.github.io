@@ -6,10 +6,19 @@
     <description>To be a sailor (C&#43;&#43;)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-ch</language>
-    <lastBuildDate>Tue, 19 May 2020 02:28:26 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2020 11:49:05 +0000</lastBuildDate>
     
     <atom:link href="https://binghuacheng.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Classes and Dynamic Memory Allocation</title>
+      <link>https://binghuacheng.github.io/posts/classes-and-dynamic-memory-allocation/</link>
+      <pubDate>Wed, 20 May 2020 11:49:05 +0000</pubDate>
+      
+      <guid>https://binghuacheng.github.io/posts/classes-and-dynamic-memory-allocation/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Working With Class</title>
@@ -102,13 +111,63 @@ new[]	delete[]
 &lt;p&gt;The second step is to write the function definition. Because it is not a member function, you don&amp;rsquo;t use the &lt;code&gt;Time::&lt;/code&gt; qualifier. Also you don&amp;rsquo;t use the &lt;code&gt;friend&lt;/code&gt; keyword in the definition. For instance:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Time &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; m, &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; Time &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; t)	&lt;span style=&#34;color:#75715e&#34;&gt;//friend not used in definition
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;a-common-kind-of-friend-overloading-the--operator&#34;&gt;A Common Kind of Friend: Overloading the &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt; Operator&lt;/h3&gt;
-&lt;p&gt;In general, to overload the &amp;laquo; operator to display an object of class &lt;code&gt;c_name&lt;/code&gt;, you use a friend function with a definition in this form:&lt;/p&gt;
+&lt;p&gt;One of the most common tasks for operator overloading is defining the &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt; operator so that it can be used in conjunction with the &lt;code&gt;cout&lt;/code&gt; object to display an object&amp;rsquo;s contents.
+In general, to overload the &amp;laquo; operator to display an object of class &lt;code&gt;c_name&lt;/code&gt;, you use a friend function with a definition in this form:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;ostream &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;(ostream &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; os, &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; c_name &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; obj)
 {
 	os &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; ...;	&lt;span style=&#34;color:#75715e&#34;&gt;// display object content
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; os;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;more-overloading-a-vector-class&#34;&gt;More Overloading: A Vector Class&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;multiple-representation-and-classes&#34;&gt;Multiple Representation and Classes&lt;/h3&gt;
+&lt;p&gt;Quantities that have different, but equivalent, representations are common.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First, you can store multiple representations in one object.&lt;/li&gt;
+&lt;li&gt;Second, you can write the class function so that assigning values for one representation automatically assigns values for the other representation(s).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;overloading-arithmetic-operators&#34;&gt;Overloading Arithmetic Operators&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Tip:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;If a method needs to compute a new class object, you should see if you can use a class constructor to do the work. Not only does that save you trouble, it ensures that the new object is constructed in the proper fashion.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt;
+Because operator overloading is implemented with functions, you can overload the same operator many times, as long as each operator function has a distinct signature and as long as each operator function has the same number of operands as the corresponding built-in C++ operator.&lt;/p&gt;
+&lt;h2 id=&#34;automatic-conversiona-and-type-casts-for-classes&#34;&gt;Automatic Conversiona and Type Casts for Classes&lt;/h2&gt;
+&lt;p&gt;You may define a class suffciently related to a basic type or another class that it makes sense to convert from one form to another. In such a case, you can tell C++ how to make such conversions automatically.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; A C++ constructor that contains one argument defines a type conversion from the argument type to the class type. If the constructor is qualified with the keyword &lt;code&gt;explicit&lt;/code&gt;, the constructor is used for explicit conversion only; otherwise, it is also used for implicit conversation.&lt;/p&gt;
+&lt;p&gt;When does the compiler use the &lt;code&gt;Stonewt(double)&lt;/code&gt; function? If the keyword &lt;code&gt;explicit&lt;/code&gt; is used in the declaration, &lt;code&gt;Stonewt(double)&lt;/code&gt; is used only for an explicit type cast; otherwise, it is also used for the following implicit conversions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When you initialize a &lt;code&gt;Stonewt&lt;/code&gt; object to a type &lt;code&gt;double&lt;/code&gt; value.&lt;/li&gt;
+&lt;li&gt;When you assign a type &lt;code&gt;double&lt;/code&gt; value to a &lt;code&gt;Stonewt&lt;/code&gt; object&lt;/li&gt;
+&lt;li&gt;Whe you pass a type &lt;code&gt;double&lt;/code&gt; value to a function that expects a &lt;code&gt;Stonewt&lt;/code&gt; argument.&lt;/li&gt;
+&lt;li&gt;When a function that&amp;rsquo;s declared to return a &lt;code&gt;Stonewt&lt;/code&gt; value tries to return a &lt;code&gt;double&lt;/code&gt; value.&lt;/li&gt;
+&lt;li&gt;When any of the preceding situations use a built-in type that can unambiguously be converted to type &lt;code&gt;double&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; Note that when a constructor has a single argument, you can use the following form when initializing a class object:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// a syntax for initializing a class object when
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// using a constructor with one argument
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stonewt incognito&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;275&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is equivalent to the other two forms shown earlier:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// standard syntax forms for initializing class objects
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Stonewt &lt;span style=&#34;color:#a6e22e&#34;&gt;incognito&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;275&lt;/span&gt;);
+Stonewt incognito&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Stonewt(&lt;span style=&#34;color:#ae81ff&#34;&gt;275&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;However, the last forms can also be used with constructors that have multiple arguments.&lt;/p&gt;
+&lt;h3 id=&#34;conversion-function&#34;&gt;Conversion Function&lt;/h3&gt;
+&lt;p&gt;Constructors only provide for converting another type to the class type. To do the reverse, you have to use a special form of C++ operator function called a &lt;code&gt;conversion function&lt;/code&gt;.
+So how do you create a conversion function? To convert to type &lt;code&gt;typename&lt;/code&gt;, you use a conversion function in this form:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt;()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note the following points:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The conversion function must be a class method.&lt;/li&gt;
+&lt;li&gt;The conversion function must not specify a return type&lt;/li&gt;
+&lt;li&gt;The conversion function must have no arguments.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, a function to convert to type double would have this prototype:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;Caution:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;You should use implicit conversion functions with care. Often a function that can only be invoked explicitly is the best choice. A conversion function must be a member function.&lt;/p&gt;
+&lt;p&gt;C++ provides the following type conversions for classes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A class constructor that has but a single argument serves as an instruction for converting a value of the argument type to the class type.&lt;/li&gt;
+&lt;li&gt;A special class member operator function called &lt;code&gt;conversion function&lt;/code&gt; serves as an instruction for converting a class object to some other type.&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     
