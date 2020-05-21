@@ -17,7 +17,122 @@
       <pubDate>Wed, 20 May 2020 11:49:05 +0000</pubDate>
       
       <guid>https://binghuacheng.github.io/posts/classes-and-dynamic-memory-allocation/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;main-content&#34;&gt;Main Content&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Using dynamic memory allocation for class members&lt;/li&gt;
+&lt;li&gt;Implicit and explicit copy constructor&lt;/li&gt;
+&lt;li&gt;What you must do if you use &lt;code&gt;new&lt;/code&gt; in a constructor&lt;/li&gt;
+&lt;li&gt;Using &lt;code&gt;static&lt;/code&gt; class methods&lt;/li&gt;
+&lt;li&gt;Using placement &lt;code&gt;new&lt;/code&gt; with objects&lt;/li&gt;
+&lt;li&gt;Using pointers to objects&lt;/li&gt;
+&lt;li&gt;Implementing a queue abstract data type(ADT)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;dynamic-memory-and-classes&#34;&gt;Dynamic Memory and Classes&lt;/h2&gt;
+&lt;h3 id=&#34;static-class-members&#34;&gt;Static Class Members&lt;/h3&gt;
+&lt;p&gt;A &lt;code&gt;static class member&lt;/code&gt; has special property: A program create only one copy of a static class variable, regardless of the number of objects created. This is convenient for data that should be private to a class but that should have the same value for all class objects.
+&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; A static data member is declared in the class declaration and is initialized in the file containing the class methods. The scope operator is used in the initialization to indicate to which class the static member belongs. However, if the static member is a &lt;code&gt;const&lt;/code&gt; integral type or an enumeration type, it can be initialized in the class declaration itself.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Warning:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Whenever you use &lt;code&gt;new&lt;/code&gt; in a constructor to allocate memory, you should use &lt;code&gt;delete&lt;/code&gt; in the corresponding destructor to free that memory. If you use &lt;code&gt;new []&lt;/code&gt;(with brackets), then you should use &lt;code&gt;delete []&lt;/code&gt;(with brackets).&lt;/p&gt;
+&lt;h3 id=&#34;special-member-functions&#34;&gt;Special Member Functions&lt;/h3&gt;
+&lt;p&gt;There are &lt;code&gt;special member function&lt;/code&gt; that are defined automatically. In particular, C++ automatically provides the following member functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A default constructor if you define no constructors.&lt;/li&gt;
+&lt;li&gt;A default destructor if you don&amp;rsquo;t define one.&lt;/li&gt;
+&lt;li&gt;A copy constructor if you don&amp;rsquo;t define one&lt;/li&gt;
+&lt;li&gt;An assignment operator if you don&amp;rsquo;t define one.&lt;/li&gt;
+&lt;li&gt;An address operator if you don&amp;rsquo;t define one&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;copy-constructors&#34;&gt;Copy Constructors&lt;/h4&gt;
+&lt;p&gt;A copy constructor is used to copy an object to a newly created object. That is, it&amp;rsquo;s used during initialization, including passing function arguments by value and not during ordinary assignment. A copy constructor for a class normally has this prototype:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Class_name(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; Class_name &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that it takes a constant reference to a class object as its argument. For example, a copy constructor for the &lt;code&gt;String&lt;/code&gt; class would have this prototype:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;StringBad(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; StringBad &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here are two things to note:&lt;/p&gt;
+&lt;h5 id=&#34;when-a-copy-constructor-is-used&#34;&gt;When a copy Constructor is Used&lt;/h5&gt;
+&lt;p&gt;A copy constructor is invoked whenever a new object is created and initialized to an existing object of the same kind. This happens in several situations. The most obvious situation is when you explicitly initialize a new object to an existing object. For example, given that &lt;code&gt;motto&lt;/code&gt; is &lt;code&gt;StringBad&lt;/code&gt; object, the following four defining declarations invokes a copy constructor:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;StringBad &lt;span style=&#34;color:#a6e22e&#34;&gt;ditto&lt;/span&gt;(motto);		&lt;span style=&#34;color:#75715e&#34;&gt;// calls StringBad(const StringBad &amp;amp;)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;StringBad metto&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;motto;		&lt;span style=&#34;color:#75715e&#34;&gt;// calls StringBad(const StringBad &amp;amp;)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;StringBad also &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; StringBad(motto);	&lt;span style=&#34;color:#75715e&#34;&gt;// calls StringBad(const StringBad &amp;amp;)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;StringBad &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pStringBad &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; StringBad(motto);	&lt;span style=&#34;color:#75715e&#34;&gt;// calls StringBad(const StringBad &amp;amp;)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Depending on the implementation, the middle two declarations may use a copy constructor directly to create &lt;code&gt;metoo&lt;/code&gt; and &lt;code&gt;also&lt;/code&gt;, or they may use a copy constructor to generate temporary objects whose contents are then assigned to &lt;code&gt;metto&lt;/code&gt; and &lt;code&gt;also&lt;/code&gt;. The last example initialize an anonymous object to &lt;code&gt;motto&lt;/code&gt; and assigns the address of the new object to the &lt;code&gt;pstringBad&lt;/code&gt; pointer.&lt;/p&gt;
+&lt;h5 id=&#34;what-a-default-copy-constructor-does&#34;&gt;What a Default Copy Constructor Does&lt;/h5&gt;
+&lt;p&gt;The default copy constructor performs a member-by-member copy of the nonstatic members(memberwise copying, also sometimes called &lt;code&gt;shallow copying&lt;/code&gt;). Each member is copied by value.
+If a member is itself a class object, the copy constructor for that class is used to copy one member object to another. Static members, such as &lt;code&gt;num_strings&lt;/code&gt;, are unaffected because they belong to the class as a whole instead of to individual objects.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/em&gt; If your class has a static data member whose value changes when new objects are created, you should provide an explicit copy constructor that handles the accounting.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Caution:&lt;/strong&gt;&lt;/em&gt; If a class contains members that are pointers initialized by &lt;code&gt;new&lt;/code&gt;, you should define a copy constructor that copies the pointed-to data instead of copying the pointer themselves. This is termed &lt;code&gt;deep copying&lt;/code&gt;. The alternative form of copying(memberwise, or shallow, &lt;code&gt;copying&lt;/code&gt;) just copies pointer values. A shallow copy is just that &amp;ndash; the shallow &amp;ldquo;scraping off&amp;rdquo; of pointer information for copying, rather than the deeper &amp;ldquo;mining&amp;rdquo; required to copy the constructs referred to by the pointer.&lt;/p&gt;
+&lt;h3 id=&#34;assignment-operators&#34;&gt;Assignment Operators&lt;/h3&gt;
+&lt;p&gt;C++ allows class object assignment. It does so by automatically overloading an assignment operator for a class. This operator has the following prototype:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Class_name &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; Class_name&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; Class_name &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That is, it takes and returns a reference to an object of the class.&lt;/p&gt;
+&lt;h4 id=&#34;when-an-assignment-operator-is-used-and-what-it-does&#34;&gt;When an Assignment Operator is Used and What it Does&lt;/h4&gt;
+&lt;p&gt;An overload assignment operator is used when you assign one object to another existing object:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;StringBad &lt;span style=&#34;color:#a6e22e&#34;&gt;headline1&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Celery Stalks at Midnight&amp;#34;&lt;/span&gt;);
+...
+StringBad knot;
+knot&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;headline1;		&lt;span style=&#34;color:#75715e&#34;&gt;// assignment operator invoked
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;An assignment operator is not necessarily used when initializing an object:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;StringBad metoo&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;knot;	&lt;span style=&#34;color:#75715e&#34;&gt;// use copy constructor, possibly assignment, too
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;fixing-assignment&#34;&gt;Fixing Assignment&lt;/h4&gt;
+&lt;p&gt;The solution for the problem created by an inappropriate default assignment operator is to provide your own assignment operator definition, one that makes a deep copy. There are some points to note:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Because the target object may already refer to previously allocated data, the function should use &lt;code&gt;delete []&lt;/code&gt; to free former obligations.&lt;/li&gt;
+&lt;li&gt;The function should protect against assigning an object to itself, otherwise, the freeing of memory described previously could erase the object&amp;rsquo;s contents before they are reassigned.&lt;/li&gt;
+&lt;li&gt;The function returns a reference to the invoking object.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here&amp;rsquo;s how you could write an assignment operator for the &lt;code&gt;StringBad&lt;/code&gt; class:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;StringBad &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; StringBad&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; StringBad &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; st)
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;st)	&lt;span style=&#34;color:#75715e&#34;&gt;// object assigned to itself
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;delete&lt;/span&gt; [] str;		&lt;span style=&#34;color:#75715e&#34;&gt;// free old string
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	len&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;st.len;
+	str&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;[len&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;// get space for new string
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;strcpy(str, st.str);	&lt;span style=&#34;color:#75715e&#34;&gt;// copy the string
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;;		&lt;span style=&#34;color:#75715e&#34;&gt;// return reference to invoking object
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;the-new-improved-string-class&#34;&gt;The New, Improved &lt;code&gt;String&lt;/code&gt; Class&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;C++11 Null Pointer:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In C++98, the literal &lt;code&gt;0&lt;/code&gt; has two meanings &amp;ndash; it can be the numberic value &lt;code&gt;0&lt;/code&gt;, and it can be the null pointer &amp;ndash; thus making it difficult for the reader and compiler to distinguish between the two. Sometimes programmer use &lt;code&gt;(void *) 0&lt;/code&gt; to identify the pointer version.(The null pointer itself may have a nonzero interal representation.) Other programmers use NULL, a C macro defined to represent the null pointer. However, this proved to be an incomplete solution. C++11 provides a better solution by introducing a new keyword, &lt;code&gt;nullptr&lt;/code&gt;, to denote the null pointer. You still can use &lt;code&gt;0&lt;/code&gt; as before &amp;ndash; otherwise an enormous amount of existing code would be invalidated &amp;ndash; but henceforth the recommendation is to use &lt;code&gt;nullptr&lt;/code&gt; instead:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;str&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// C++11 null pointer notation
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;comparison-members&#34;&gt;Comparison Members&lt;/h3&gt;
+&lt;p&gt;The standard &lt;code&gt;strcmp()&lt;/code&gt; function, which returns a negative value if its first argument precedes the second alphabetically, 0 if the strings are the same, and a positive value if the first follows the second alphabetically.&lt;/p&gt;
+&lt;h3 id=&#34;static-class-member-function&#34;&gt;Static Class Member Function&lt;/h3&gt;
+&lt;p&gt;It&amp;rsquo;s possible to declare a member function as being static. (The keyword &lt;code&gt;static&lt;/code&gt; should appear in the function declaration but not in the function definition if the latter is separate). This has two important consequences.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First, a static member function doesn&amp;rsquo;t have to be invoked by an object; in fact, it doesn&amp;rsquo;t even get a &lt;code&gt;this&lt;/code&gt; pointer to play with. If the static member function is declared in the public section, it can be invoked using the class name and the scope-resolution operator.&lt;/li&gt;
+&lt;li&gt;The second consequence is that because a static member function is not associated with a particular object, the only data member it can use are the static data members.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;things-to-remember-when-using-new-in-constructors&#34;&gt;Things to Remember When Using &lt;code&gt;new&lt;/code&gt; in Constructors&lt;/h2&gt;
+&lt;p&gt;Here are some points that you should notice when using &lt;code&gt;new&lt;/code&gt; to initialize pointer members of an object:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you use &lt;code&gt;new&lt;/code&gt; to initialize a pointer member in a constructor, you should use &lt;code&gt;delete&lt;/code&gt; in the destructor.&lt;/li&gt;
+&lt;li&gt;The uses of &lt;code&gt;new&lt;/code&gt; and &lt;code&gt;delete&lt;/code&gt; should be compatible. You should pair &lt;code&gt;new&lt;/code&gt; with &lt;code&gt;delete&lt;/code&gt; and &lt;code&gt;new []&lt;/code&gt; with &lt;code&gt;delete []&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If there are multiple constructors, all should use &lt;code&gt;new&lt;/code&gt; the same way &amp;ndash; either all with brackets or all without brackets. There&amp;rsquo;s only one destructor, so all constructors have to be compatible with that destructor. However, it is permissible to initialize a pointer with &lt;code&gt;new&lt;/code&gt; in one constructor and with the null pointer(0, or, with C++11, nullptr) in another constructor because it&amp;rsquo;s okay to apply the &lt;code&gt;delete&lt;/code&gt; operation(with or without brackets) to the null pointer.&lt;/li&gt;
+&lt;li&gt;You should define a copy constructor that initialize one object to another by doing deep copying. Typically, the constructor should emulate the following example:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;String(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; String &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; st)
+{
+	num_strings&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;	&lt;span style=&#34;color:#75715e&#34;&gt;// handle static member update if necessary
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	len&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;st.len;	&lt;span style=&#34;color:#75715e&#34;&gt;// same length as copied string
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	str&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;[len&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;// allot space
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;strcpy(str, st.str);	&lt;span style=&#34;color:#75715e&#34;&gt;// copy string to new location
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;You should define an assignment operator that copies one object to another by doing deep copying. Typically, the class method should emulate the following example:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;String &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; String&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; String &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; st)
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;st)	&lt;span style=&#34;color:#75715e&#34;&gt;// object assigned to itself
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;delete&lt;/span&gt; [] str;		&lt;span style=&#34;color:#75715e&#34;&gt;// all done
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	len&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;st.len;		&lt;span style=&#34;color:#75715e&#34;&gt;// free old string
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	len&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;st.len;
+	str&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;[len&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;];	&lt;span style=&#34;color:#75715e&#34;&gt;// get space for new string
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;strcpy(str, st.str);	&lt;span style=&#34;color:#75715e&#34;&gt;// copy the string
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;;		&lt;span style=&#34;color:#75715e&#34;&gt;// return reference to invoking object
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;donts-and-dos&#34;&gt;Don&amp;rsquo;ts and Dos&lt;/h3&gt;
+</description>
     </item>
     
     <item>
