@@ -14,7 +14,7 @@
 <link rel="icon" type="image/x-icon" href="https://binghuacheng.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://binghuacheng.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1590066685" />
+<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1590136342" />
 
 
 
@@ -207,7 +207,25 @@ So how do you create a conversion function? To convert to type <code>typename</c
 <li>A class constructor that has but a single argument serves as an instruction for converting a value of the argument type to the class type.</li>
 <li>A special class member operator function called <code>conversion function</code> serves as an instruction for converting a class object to some other type.</li>
 </ul>
-
+<h2 id="about-returning-objects">About Returning Objects</h2>
+<h3 id="returning-reference-to-a-const-object">Returning Reference to a <code>const</code> Object</h3>
+<p>The usual reason for using a <code>const reference</code> is efficiency, but there are restrictions on when this choice can be used. If a function returns an object that is passed to it, either by object invocation or as a method argument, you can increase the effiency of the method by having it return a reference.</p>
+<h3 id="returning-a-reference-to-a-non-const-object">Returning a Reference to a <code>Non-const</code> Object</h3>
+<p>Two common example of returning a non-const object are overloading the assignment operator and overloading the &laquo; operator for use with cout. The first is done for reasons of effiency, and the second for reasons of necessity.</p>
+<h3 id="returning-an-object">Returning an Object</h3>
+<p>If the object being returned is local to the called function, then it should not be returned by reference because the local object has its destructor called when the function terminated. Thus, when control returns to the calling function, there is no object left to which the reference can refer. In these circumstances, you should return an object, not a reference. Typically, overloaded arithmetic operator fall into this category.</p>
+<h3 id="returning-a-const-object">Returning a <code>const</code> Object</h3>
+<h2 id="using-pointers-to-objects">Using Pointers to Objects</h2>
+<p><em><strong>Object Initialization with new:</strong></em></p>
+<p>In general, if <code>Class_name</code> is a class and if <code>value</code> is of type <code>Type name</code>, the statement</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Class_name <span style="color:#f92672">*</span> pclass <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Class_name(value);
+</code></pre></div><p>invokes this constructor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Class_name(Type_name);
+</code></pre></div><p>there may be trivial conversion, such as to this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Class_name(<span style="color:#66d9ef">const</span> Type_name <span style="color:#f92672">&amp;</span>);
+</code></pre></div><p>Also the usual conversions incoked by prototype matching, such as from <code>int</code> to <code>double</code>, takes place as long as there is no ambiguity. An initialization in the following form invokes the default constructor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Class_name <span style="color:#f92672">*</span> ptr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> class_name;
+</code></pre></div>
         </div>
         <div class="article-info">
     

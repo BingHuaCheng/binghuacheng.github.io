@@ -131,7 +131,24 @@ knot&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;headline1;		&lt;span
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;strcpy(str, st.str);	&lt;span style=&#34;color:#75715e&#34;&gt;// copy the string
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;;		&lt;span style=&#34;color:#75715e&#34;&gt;// return reference to invoking object
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;donts-and-dos&#34;&gt;Don&amp;rsquo;ts and Dos&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;membership-initialization&#34;&gt;Membership Initialization&lt;/h2&gt;
+&lt;p&gt;C++ Provides a special syntax for class &lt;code&gt;constructors&lt;/code&gt; that can be used to initialize data member. This syntax consists of a colon followed by a comma-separated list of initializers. This is placed after the closing parenthesis of the constructor arguments and before the opening brace of the function body. Each initializer consists of the name of the member being initialized followed by parentheses containing the initialization value. Conceptually, these initializations take place when the object is created and before any statements in the function body are executed. The syntax looks like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;queue(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; qs) &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; qsize(qs), items(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;), front(NULL), rear(NULL) {}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This form is obligatory if the data member is a nonstatic &lt;code&gt;const&lt;/code&gt; member or a reference, except that C++11 in-class initialization can be used for nonstatic &lt;code&gt;const&lt;/code&gt; members.
+&lt;em&gt;&lt;strong&gt;Caution:&lt;/strong&gt;&lt;/em&gt; Data member are initialized in the order in which they appear in the class declaration, not in the order in which initializers are listed. You can&amp;rsquo;t use the member initializer list syntax with class methods other than constructors.
+C++11 allows in-class initialization(that is, initialization in the class definition):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+		...
+		Node &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; front&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;NULL;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; {Q_SIZE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;};
+		Node &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; rear&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;NULL;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; items&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; qsize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Q_SIZE;
+		...
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is equivalent to using a member initialization list. However, any constructor using a membership initialization list will override the corresponding in-class initializations&lt;/p&gt;
 </description>
     </item>
     
@@ -283,7 +300,25 @@ So how do you create a conversion function? To convert to type &lt;code&gt;typen
 &lt;li&gt;A class constructor that has but a single argument serves as an instruction for converting a value of the argument type to the class type.&lt;/li&gt;
 &lt;li&gt;A special class member operator function called &lt;code&gt;conversion function&lt;/code&gt; serves as an instruction for converting a class object to some other type.&lt;/li&gt;
 &lt;/ul&gt;
-</description>
+&lt;h2 id=&#34;about-returning-objects&#34;&gt;About Returning Objects&lt;/h2&gt;
+&lt;h3 id=&#34;returning-reference-to-a-const-object&#34;&gt;Returning Reference to a &lt;code&gt;const&lt;/code&gt; Object&lt;/h3&gt;
+&lt;p&gt;The usual reason for using a &lt;code&gt;const reference&lt;/code&gt; is efficiency, but there are restrictions on when this choice can be used. If a function returns an object that is passed to it, either by object invocation or as a method argument, you can increase the effiency of the method by having it return a reference.&lt;/p&gt;
+&lt;h3 id=&#34;returning-a-reference-to-a-non-const-object&#34;&gt;Returning a Reference to a &lt;code&gt;Non-const&lt;/code&gt; Object&lt;/h3&gt;
+&lt;p&gt;Two common example of returning a non-const object are overloading the assignment operator and overloading the &amp;laquo; operator for use with cout. The first is done for reasons of effiency, and the second for reasons of necessity.&lt;/p&gt;
+&lt;h3 id=&#34;returning-an-object&#34;&gt;Returning an Object&lt;/h3&gt;
+&lt;p&gt;If the object being returned is local to the called function, then it should not be returned by reference because the local object has its destructor called when the function terminated. Thus, when control returns to the calling function, there is no object left to which the reference can refer. In these circumstances, you should return an object, not a reference. Typically, overloaded arithmetic operator fall into this category.&lt;/p&gt;
+&lt;h3 id=&#34;returning-a-const-object&#34;&gt;Returning a &lt;code&gt;const&lt;/code&gt; Object&lt;/h3&gt;
+&lt;h2 id=&#34;using-pointers-to-objects&#34;&gt;Using Pointers to Objects&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Object Initialization with new:&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In general, if &lt;code&gt;Class_name&lt;/code&gt; is a class and if &lt;code&gt;value&lt;/code&gt; is of type &lt;code&gt;Type name&lt;/code&gt;, the statement&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Class_name &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pclass &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Class_name(value);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;invokes this constructor:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Class_name(Type_name);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;there may be trivial conversion, such as to this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Class_name(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; Type_name &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Also the usual conversions incoked by prototype matching, such as from &lt;code&gt;int&lt;/code&gt; to &lt;code&gt;double&lt;/code&gt;, takes place as long as there is no ambiguity. An initialization in the following form invokes the default constructor:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;Class_name &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ptr&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; class_name;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>

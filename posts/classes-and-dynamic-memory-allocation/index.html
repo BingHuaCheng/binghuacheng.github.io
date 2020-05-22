@@ -14,7 +14,7 @@
 <link rel="icon" type="image/x-icon" href="https://binghuacheng.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://binghuacheng.github.io/favicon.png">
 
-<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1590066685" />
+<link rel="stylesheet" href="https://binghuacheng.github.io/css/style.css?rnd=1590136342" />
 
 
 
@@ -179,7 +179,24 @@ knot<span style="color:#f92672">=</span>headline1;		<span style="color:#75715e">
 </span><span style="color:#75715e"></span>	std<span style="color:#f92672">::</span>strcpy(str, st.str);	<span style="color:#75715e">// copy the string
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;		<span style="color:#75715e">// return reference to invoking object
 </span><span style="color:#75715e"></span>}
-</code></pre></div><h3 id="donts-and-dos">Don&rsquo;ts and Dos</h3>
+</code></pre></div><h2 id="membership-initialization">Membership Initialization</h2>
+<p>C++ Provides a special syntax for class <code>constructors</code> that can be used to initialize data member. This syntax consists of a colon followed by a comma-separated list of initializers. This is placed after the closing parenthesis of the constructor arguments and before the opening brace of the function body. Each initializer consists of the name of the member being initialized followed by parentheses containing the initialization value. Conceptually, these initializations take place when the object is created and before any statements in the function body are executed. The syntax looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">queue(<span style="color:#66d9ef">int</span> qs) <span style="color:#f92672">:</span> qsize(qs), items(<span style="color:#ae81ff">0</span>), front(NULL), rear(NULL) {}
+</code></pre></div><p>This form is obligatory if the data member is a nonstatic <code>const</code> member or a reference, except that C++11 in-class initialization can be used for nonstatic <code>const</code> members.
+<em><strong>Caution:</strong></em> Data member are initialized in the order in which they appear in the class declaration, not in the order in which initializers are listed. You can&rsquo;t use the member initializer list syntax with class methods other than constructors.
+C++11 allows in-class initialization(that is, initialization in the class definition):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span>
+{
+	<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+		...
+		Node <span style="color:#f92672">*</span> front<span style="color:#f92672">=</span>NULL;
+		<span style="color:#66d9ef">enum</span> {Q_SIZE<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>};
+		Node <span style="color:#f92672">*</span> rear<span style="color:#f92672">=</span>NULL;
+		<span style="color:#66d9ef">int</span> items<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> qsize<span style="color:#f92672">=</span>Q_SIZE;
+		...
+};
+</code></pre></div><p>This is equivalent to using a member initialization list. However, any constructor using a membership initialization list will override the corresponding in-class initializations</p>
 
         </div>
         <div class="article-info">
